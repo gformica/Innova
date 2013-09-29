@@ -1,0 +1,471 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package innova;
+import java.util.Scanner;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ *
+ * @author gabriel
+ */
+
+public class Main {
+    
+    public static void main(String[] args) {
+       
+        String dbname = "innova" ;
+        String user = "postgres" ;
+        String passwd = "pp";
+        Conexion inn = new Conexion(dbname,user,passwd);
+        String msj;
+        int opcion;
+
+        msj = "-----GESTION DE COBROS-----";
+        System.out.println(msj);
+        
+        msj = "\n Marque el numero correspondiente a la accion que desea realizar: " ;
+        msj = msj + "\n 1) Gestion de Clientes.";
+        msj = msj + "\n 2) Gestion de Productos.";
+        msj = msj + "\n 3) Gestion de Afiliaciones.";
+        msj = msj + "\n 4) Gestion de Consumos.";
+        msj = msj + "\n 5) Gestion de Facturas. \n";
+        msj = msj + "\n Opcion nro: ";
+        System.out.println(msj);
+        
+        Scanner in = new Scanner(System.in);
+        opcion = in.nextInt();
+        
+        switch(opcion){
+            case 1: msj = "---GESTION CLIENTES--- \n Acciones: \n 1) Registrar \n " ; 
+                    msj = msj + "2) Buscar \n 3) Consultar \n Opcion nro: " ; 
+                    
+                    System.out.println(msj);
+                    in = new Scanner(System.in);
+                    opcion = in.nextInt();
+                
+                    switch(opcion){
+                        case 1: System.out.println("---REGISTRAR--- \n Cedula del cliente a registrar (V-xxxxxxxx): ");
+                                Scanner sc1 = new Scanner(System.in);
+                                String cedula = sc1.nextLine();
+
+                                System.out.println("Nombre del cliente: ");
+                                Scanner sc2 = new Scanner(System.in);
+                                String nombre = sc2.nextLine();
+
+                                System.out.println("Fecha de nacimiento (aaaa/mm/dd): ");
+                                Scanner sc3 = new Scanner(System.in);
+                                String nacimiento = sc3.nextLine();
+
+                                System.out.println("Direccion: ");
+                                Scanner sc4 = new Scanner(System.in);
+                                String direccion = sc4.nextLine();
+
+                                Cliente cliente = new Cliente(cedula, nombre, nacimiento, direccion);
+                                cliente.registrar(inn);
+                        break;
+
+                        case 2: System.out.println("---BUSCAR--- \n Cedula del cliente a buscar: ");
+                                Scanner sc5 = new Scanner(System.in);
+                                String cedula_a_buscar = sc5.nextLine();
+                                Cliente cliente2 = new Cliente();
+                                ResultSet Datos = cliente2.buscar(cedula_a_buscar, inn);
+                                try {
+                                        Datos.next();
+                                        System.out.println("Nombre: ");
+                                        System.out.println(Datos.getString(2));
+                                        System.out.println("Fecha de nacimiento: ");
+                                        System.out.println(Datos.getString(3));
+                                        System.out.println("Direccion: ");
+                                        System.out.println(Datos.getString(4));
+                                } catch (Exception e){
+
+                                }                            
+                        break;
+
+                        case 3: System.out.println("---LISTA DE CLIENTES--- ");
+                                Cliente cliente3 = new Cliente();
+                                ResultSet ConsultaClientes = cliente3.consultar(inn);
+                                try {
+                                        while (ConsultaClientes.next()) {
+                                        System.out.println("Cedula: ");
+                                        System.out.println(ConsultaClientes.getString(1));
+                                        System.out.println("Nombre: ");
+                                        System.out.println(ConsultaClientes.getString(2));
+                                        System.out.println("Fecha de nacimiento: ");
+                                        System.out.println(ConsultaClientes.getString(3));
+                                        System.out.println("Direccion: ");
+                                        System.out.println(ConsultaClientes.getString(4));
+                                        System.out.println("\n");
+                                        }
+                                } catch (Exception e){
+
+                                }         
+                    break;    
+                }
+            break;
+                
+            case 2: msj = "---GESTION PRODUCTOS--- \n Acciones: \n 1) Registrar \n " ; 
+                    msj = msj + "2) Buscar \n 3) Eliminar \n 4) Listar \n Opcion nro: " ; 
+                    
+                    System.out.println(msj);
+                    in = new Scanner(System.in);
+                    opcion = in.nextInt();
+                
+                    switch(opcion){
+                        case 1: System.out.println("---REGISTRAR--- \n Nombre del producto a registrar: ");
+                                Scanner sc1 = new Scanner(System.in);
+                                String nombre = sc1.nextLine();
+
+                                System.out.println("ID del producto: ");
+                                Scanner sc2 = new Scanner(System.in);
+                                String id = sc2.nextLine();
+
+                                System.out.println("Cedula del cliente (V-xxxxxxxx): ");
+                                Scanner sc3 = new Scanner(System.in);
+                                String cedula = sc3.nextLine();
+
+                                Producto producto = new Producto(nombre, id, cedula);
+                                producto.registrar(inn);
+                        break;
+
+                        case 2: System.out.println("---BUSCAR--- \n ID del producto a buscar: ");
+                                Scanner sc4 = new Scanner(System.in);
+                                String id_a_buscar = sc4.nextLine();
+                                Producto producto2 = new Producto();
+                                ResultSet DatosProducto = producto2.buscar(id_a_buscar, inn);
+                                try {
+                                        DatosProducto.next();
+                                        System.out.println("Nombre: ");
+                                        System.out.println(DatosProducto.getString(1));
+                                        System.out.println("Cedula cliente: ");
+                                        System.out.println(DatosProducto.getString(3));
+                                } catch (Exception e){
+
+                                }
+                        break;
+
+                        case 3: System.out.println("---ELIMINAR--- \n ID del producto a eliminar: ");
+                                Scanner sc5 = new Scanner(System.in);
+                                String id_a_eliminar = sc5.nextLine();
+                                Producto producto3 = new Producto();
+                                producto3.eliminar(id_a_eliminar, inn);
+                        break;
+
+                        case 4: System.out.println("---LISTA DE PRODUCTOS--- ");
+                                Producto producto4 = new Producto();
+                                ResultSet ConsultaProductos = producto4.listar(inn);
+                                try {
+                                    while (ConsultaProductos.next()) {
+                                        System.out.println("Nombre: ");
+                                        System.out.println(ConsultaProductos.getString(1));
+                                        System.out.println("ID: ");
+                                        System.out.println(ConsultaProductos.getString(2));
+                                        System.out.println("Cedula cliente");
+                                        System.out.println(ConsultaProductos.getString(3));
+                                        System.out.println("\n");
+                                     }
+                                } catch (Exception e){
+
+                                }
+                        break;
+                }
+            break;
+                
+            case 3: msj = "---GESTION AFILIACIONES--- \n Acciones: \n 1) Registrar \n " ; 
+                    msj = msj + "2) Buscar \n 3) Eliminar \n 4) Listar \n Opcion nro: " ; 
+                    
+                    System.out.println(msj);
+                    in = new Scanner(System.in);
+                    opcion = in.nextInt();
+                    
+                    switch(opcion){
+                    case 1: System.out.println("---AFILIAR--- \n ID del producto: ");
+                            Scanner sc1 = new Scanner(System.in);
+                            String id_producto = sc1.nextLine();
+
+                            System.out.println("ID del plan: ");
+                            Scanner sc2 = new Scanner(System.in);
+                            String id_plan = sc2.nextLine();
+
+                            DateFormat dateFormat1;
+                            dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+                            Date date1 = new Date();
+                            String fecha_afiliacion = dateFormat1.format(date1).toString();
+                                    
+                            DateFormat dateFormat2 = new SimpleDateFormat("dd");
+                            Date date2 = new Date();
+                            String dia_cobro;
+                            dia_cobro = dateFormat2.format(date2).toString();
+                            
+                            boolean vigente_afilia = true;
+
+                            Afilia afiliacion = new Afilia(id_producto, id_plan, fecha_afiliacion, dia_cobro, vigente_afilia);
+                            afiliacion.registrar(inn);
+                    break;
+
+                    case 2: System.out.println("---BUSCAR AFILIACIONES--- \n ID del producto: ");
+                            Scanner sc3 = new Scanner(System.in);
+                            String id_a_buscar = sc3.nextLine();
+                            Afilia afiliacion2 = new Afilia();
+                            ResultSet DatosProducto = afiliacion2.buscar(id_a_buscar, null, inn);
+                            try {
+                                    DatosProducto.next();
+                                    System.out.println("ID del plan: ");
+                                    System.out.println(DatosProducto.getString(2));
+                                    System.out.println("Fecha Afiliacion: ");
+                                    System.out.println(DatosProducto.getString(3));
+                                    System.out.println("Dia de cobro: ");
+                                    System.out.println(DatosProducto.getString(4));
+                                    System.out.println("Vigencia");
+                                    System.out.println(DatosProducto.getString(5));
+                                    
+                            } catch (Exception e){
+
+                            }
+                    break;
+
+                    case 3: System.out.println("---DESAFILIAR--- \n ID del producto a desafiliar: ");
+                            Scanner sc4 = new Scanner(System.in);
+                            String id_a_eliminar = sc4.nextLine();
+                            Afilia afiliacion3 = new Afilia();
+                            afiliacion3.eliminar(id_a_eliminar, inn); /*STAND BY*/
+                    break;
+
+                    case 4: System.out.println("---LISTA DE AFILIACIONES--- ");
+                            Afilia afiliacion4 = new Afilia();
+                            ResultSet ConsultaAfiliaciones = afiliacion4.listar(inn);
+                            try {
+                                while (ConsultaAfiliaciones.next()) {
+                                    System.out.println("ID del producto: ");
+                                    System.out.println(ConsultaAfiliaciones.getString(1));
+                                    System.out.println("ID del plan: ");
+                                    System.out.println(ConsultaAfiliaciones.getString(2));
+                                    System.out.println("Fecha afiliacion: ");
+                                    System.out.println(ConsultaAfiliaciones.getString(3));
+                                    System.out.println("Dia de cobro ");
+                                    System.out.println(ConsultaAfiliaciones.getString(4));
+                                    System.out.println("Vigencia");
+                                    System.out.println(ConsultaAfiliaciones.getString(5));
+                                    System.out.println("\n");
+                                 }
+                            } catch (Exception e){
+
+                            }
+                    break;
+                        
+                    }
+                    
+            break;
+                
+            case 4: msj = "---GESTION CONSUMOS--- \n Acciones: \n 1) Registrar \n " ; 
+                    msj = msj + "2) Buscar \n 3) Consultar \n Opcion nro: " ; 
+                    
+                    System.out.println(msj);
+                    in = new Scanner(System.in);
+                    opcion = in.nextInt();
+                
+                    switch(opcion){ 
+                        case 1: System.out.println("---REGISTRAR--- \n ID del producto: ");
+                                Scanner sc1 = new Scanner(System.in);
+                                String producto = sc1.nextLine(); /*STAND BY*/
+
+                                System.out.println("ID del servicio: ");
+                                Scanner sc2 = new Scanner(System.in);
+                                String servicio = sc2.nextLine();
+
+                                System.out.println("Fecha: ");
+                                Scanner sc3 = new Scanner(System.in);
+                                String fecha = sc3.nextLine();
+
+                                System.out.println("Cantidad: ");
+                                Scanner sc4 = new Scanner(System.in);
+                                String cantidad = sc4.nextLine();
+                                
+                                System.out.println("Cantidad total: ");
+                                Scanner sc5 = new Scanner(System.in);
+                                String cantidad_total = sc5.nextLine();
+
+                                Consumo consumo = new Consumo(producto, servicio, fecha, cantidad, cantidad_total);
+                                consumo.registrar(inn);
+                        break;
+
+                        case 2: System.out.println("---BUSCAR CONSUMOS DE UN PRODUCTO--- \n ID del producto: ");
+                                Scanner sc6 = new Scanner(System.in);
+                                String id_producto = sc6.nextLine();
+                                Consumo consumo2 = new Consumo();
+                                ResultSet Datos = consumo2.buscarTodos(id_producto, inn);
+                                try {
+                                        while(Datos.next()) {
+                                        System.out.println("\n");
+                                        System.out.println("Servicio: ");
+                                        System.out.println(Datos.getString(2));
+                                        System.out.println("Fecha: ");
+                                        System.out.println(Datos.getString(3));
+                                        System.out.println("Cantidad: ");
+                                        System.out.println(Datos.getString(4));
+                                        System.out.println("Cantidad total: ");
+                                        System.out.println(Datos.getString(5));
+                                        }
+                                } catch (Exception e){
+
+                                }                            
+                        break;
+
+                        case 3: System.out.println("---LISTA DE CONSUMOS--- ");
+                                Consumo consumo1 = new Consumo();
+                                ResultSet ListaConsumos = consumo1.consultar(inn);
+                                try {
+                                        while (ListaConsumos.next()) {
+                                        System.out.println("ID del producto: ");
+                                        System.out.println(ListaConsumos.getString(1));
+                                        System.out.println("ID del servicio: ");
+                                        System.out.println(ListaConsumos.getString(2));
+                                        System.out.println("Fecha: ");
+                                        System.out.println(ListaConsumos.getString(3));
+                                        System.out.println("Cantidad: ");
+                                        System.out.println(ListaConsumos.getString(4));
+                                        System.out.println("Cantidad total: ");
+                                        System.out.println(ListaConsumos.getString(5));
+                                        System.out.println("\n");
+                                        }
+                                } catch (Exception e){
+
+                                }         
+                    break;    
+                }
+            break;
+                
+            case 5: msj = "---GESTION FACTURAS--- \n Acciones: \n 1) Emitir \n " ; 
+                    msj = msj + "2) Consultar facturas de un producto \n Opcion nro: " ; 
+                    
+                    System.out.println(msj);
+                    in = new Scanner(System.in);
+                    opcion = in.nextInt();
+                    
+                    switch(opcion){ 
+                        case 1: System.out.println("---EMITIR--- \n ID del producto: ");
+                                Scanner sc1 = new Scanner(System.in);
+                                String producto = sc1.nextLine(); 
+
+                                System.out.println("Nro de Tarjeta: ");
+                                Scanner sc2 = new Scanner(System.in);
+                                String tarjeta = sc2.nextLine();
+
+                                System.out.println("Observaciones: ");
+                                Scanner sc3 = new Scanner(System.in);
+                                String observaciones = sc3.nextLine();
+
+                          
+                                FachadaFactura FF = new FachadaFactura();
+                                Factura Fact;
+                                Fact = FF.emitir(inn, producto, tarjeta, observaciones);
+                        break;
+                        
+                        case 2: System.out.println("---BUSCAR FACTURAS DE UN PRODUCTO--- \n ID del producto: ");
+                                Scanner sc4 = new Scanner(System.in);
+                                String id_producto = sc4.nextLine(); 
+                                Factura Fact2 = new Factura();
+                                ResultSet Facturas = Fact2.buscar(id_producto, inn);
+                                try {
+                                        while(Facturas.next()) {
+                                        System.out.println("\n");
+                                        System.out.println("Nro: ");
+                                        System.out.println(Facturas.getString(1));
+                                        System.out.println("Fecha: ");
+                                        System.out.println(Facturas.getString(3));
+                                        System.out.println("Monto: ");
+                                        System.out.println(Facturas.getString(4));
+                                        System.out.println("Pagada: ");
+                                        System.out.println(Facturas.getString(5));
+                                        System.out.println("Nro Tarjeta: ");
+                                        System.out.println(Facturas.getString(6));
+                                        System.out.println("Observacion: ");
+                                        System.out.println(Facturas.getString(7));
+                                        }
+                                } catch (Exception e){
+
+                                }
+                        break;
+                    }
+                    break;
+        };
+        
+        
+        
+      /*  Cliente c;
+        c = new Cliente("V-21393834", "Gabriel Formica", "1992-09-22", "La trinidad");
+        //c.registrar(inn);
+        
+        ResultSet rs = c.consultar(inn);
+        
+        try {
+            rs.next();
+            System.out.println(rs.getString(2));
+        } catch (Exception e) {
+        */
+            
+        
+        /* Consumo cons;
+        cons = new Consumo("tvCPR0001", "tvCS0005", "2013-05-07 01:07:00", "5", "8");
+        cons.registrar(inn);
+        ResultSet rs = cons.consultar(inn);
+        
+        try {
+            rs.next();
+            System.out.println(rs.getString(3));
+        } catch (Exception e) {
+        
+        }*/
+        
+        /* PARA PROBAR FACTURA        
+        FachadaFactura FF = new FachadaFactura();
+        Factura Fact;
+        Fact = FF.emitir(inn, "tvCPR0001", "123456789011121" , "No hay observaciones");
+        */
+        
+        
+        /*Producto p = new Producto("Decodificador Alcatel","tvCPR0005",
+                                 "V-17789321");
+        p.registrar(inn);
+        
+        Afilia af = new Afilia("tvCPR0005","tvCP0001","2000-05-12", "12", false);
+        af.registrar(inn);
+        af.eliminar(inn);
+        p.eliminar(inn); 
+   
+        ResultSet rs = af.buscar("tvCPR0005","", inn);
+        try {
+          rs.next();
+          System.out.println(rs.getString(1));
+        } catch (Exception e) {
+         
+        }
+        /*
+        Afilia af = new Afilia();
+        int x = af.fechaCorte("tvCPR0002",inn);
+        System.out.println(x);
+        
+        FachadaFactura fact = new FachadaFactura();
+        fact.esFechaDeCorte("tvCPR0002",inn);
+     
+       Agrega agr = new Agrega();
+       ResultSet rs = agr.infoPaqueteAfiliado("tvCPR0003", inn);
+       try {
+           if(rs.next()) {
+               System.out.println(rs.getString(3));
+           }
+       } catch (Exception e) {
+           
+       }
+       *  * */
+        
+    }
+
+
+}
+
