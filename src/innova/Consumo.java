@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author patricia
+ * @author Gabriel
  */
 
 public class Consumo {
