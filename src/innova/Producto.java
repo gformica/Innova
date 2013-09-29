@@ -14,17 +14,20 @@ public class Producto {
     String nomb_producto;
     String id_producto;
     String id_cliente;
+    Double saldo;
     
-    public Producto(String np, String ip, String ic) {
+    public Producto(String np, String ip, String ic, Double s) {
         nomb_producto = np;
         id_producto = ip;
         id_cliente = ic;
+        saldo = s;
     }
         
     public Producto() {
         nomb_producto = null;
         id_producto = null;
         id_cliente = null;
+        saldo = 0.0;
     }
     
    /*
@@ -32,11 +35,12 @@ public class Producto {
     */
     public void registrar(Conexion c) {
         String str = "insert into producto";
-        str += " " + "(nomb_producto, id_producto, id_cliente)";
+        str += " " + "(nomb_producto, id_producto, id_cliente, saldo)";
         str += " " + "values";
         str += "(" + "'"+ nomb_producto + "'" + ", " ;
         str += "'" + id_producto + "'" + ", ";
         str += "'" + id_cliente + "'" + ")" ;
+        str += "'" + saldo;
      
         c.execute(str);
         

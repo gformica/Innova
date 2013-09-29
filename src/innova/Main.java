@@ -129,7 +129,7 @@ public class Main {
                                 Scanner sc3 = new Scanner(System.in);
                                 String cedula = sc3.nextLine();
 
-                                Producto producto = new Producto(nombre, id, cedula);
+                                Producto producto = new Producto(nombre, id, cedula, 0.0);
                                 producto.registrar(inn);
                         break;
 
