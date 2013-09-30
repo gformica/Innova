@@ -4,11 +4,11 @@
  */
 package innova;
 
-
 /**
  *
  * @author gabriel
  */
+
 public class FacturacionPostpago extends Facturacion {
     
      @Override
