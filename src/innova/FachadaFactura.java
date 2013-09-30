@@ -19,132 +19,23 @@ public class FachadaFactura {
     private String id_producto;
     private String nro_tarjeta;
     private String obs_factura;
+    private Facturacion facturacion;
     
-    Producto producto;
-    Agrega agrega;
-    Afilia afilia;
-    Adiciona adiciona;
-    Factura factura;
+    
 
-    public FachadaFactura(String newId_producto, String newNro_tarjeta, String newObs_factura, Conexion c){
+    public FachadaFactura(String id_producto, String nro_tarjeta, 
+                          String obs_factura, Facturacion facturacion){
 
-       id_producto = newId_producto;
-       nro_tarjeta = newNro_tarjeta;
-       obs_factura = newObs_factura;
-       
+       this.id_producto = id_producto;
+       this.nro_tarjeta = nro_tarjeta;
+       this.obs_factura = obs_factura;
+       this.facturacion = facturacion;
     }
     
    /*
     * Devuelve e imprime una factura, luego de registrarla
     */
     public Factura emitir(Conexion c){
-        
-       factura = new Factura();
-       String fecha_hoy = factura.obtenerFechaHoy();
-       int nro_fact = factura.obtenerNro(c);
-       
-       //Se verifica si ya es el corte del plan del producto  
-       
-       if (!this.esFechaDeCorte(id_producto, c)) {
-           System.out.println("ERROR : No se puede generar factura ya que no es fecha de corte\n");
-           return null;
-       }
-       
-
-       //Se verifica si la factura para el dia de hoy no se ha generado
-       
-       if (fueGeneradaFacturaPreviamente(id_producto, c)) {
-           System.out.println("ERROR: Ya fue generada la factura correspondiente a este mes");
-           return null;
-       }
-       
-       
-       //Se calcula el costo basico del plan afiliado a dicho producto
-       afilia = new Afilia();
-       double costo_plan = afilia.costoBasicoDePlan(id_producto, c);
-       
-       
-       //Se calcula el costo por servicios de renta (paquete) agregados
-       agrega = new Agrega();
-       double costo_servicio_renta = agrega.costoServicioRenta(id_producto, c);
-       
-       
-       //Se calcula el costo por consumo de los servicios adicionados
-       adiciona = new Adiciona();
-       double costo_adicional = adiciona.costoServiciosAdicionados(id_producto, c);
-       
-       
-       //Se calcula el costo por los servicios consumidos en exceso
-       
-       double costo_excesos = agrega.costoExcesosServicios(id_producto, c);
-
-       
-       //Se suman los costos
-       
-       double monto_fact = costo_plan + costo_servicio_renta + costo_adicional;
-       monto_fact = monto_fact + costo_excesos;
-               
-       
-       //Ya esta todo listo para generar, registrar e imprimir la factura
-       
-       factura = new Factura(Integer.toString(nro_fact), id_producto, fecha_hoy,
-                          monto_fact, false, nro_tarjeta, obs_factura);
-       
-       factura.registrar(c);
-
-       System.out.println("\n ---FACTURA---");
-       System.out.println("Nro: " + nro_fact);
-       System.out.println("ID del producto: " + id_producto);
-       System.out.println("Fecha: " + fecha_hoy);
-       System.out.println("Monto del plan: " + costo_plan);
-       System.out.println("Monto por paquetes agregados: " + costo_servicio_renta);
-       System.out.println("Monto por servicios adicionados: " + costo_adicional);
-       System.out.println("Monto por servicios consumidos en exceso: " + costo_excesos);
-       System.out.println("Monto total: " + monto_fact);
-       System.out.println("Nro Tarjeta: " + nro_tarjeta);
-       System.out.println("Observaciones: " + obs_factura + "\n");
-             
-       return factura;
-
+        return this.facturacion.emitir(id_producto, nro_tarjeta, obs_factura, c);
     }
-
-   /*
-    * Devuelve True si es el dia de corte del plan de un producto
-    */
-    public boolean esFechaDeCorte(String id_producto, Conexion c) {
-        int hoy = this.queDiaEsHoy();
-        afilia = new Afilia();
-        int fecha_corte =  afilia.fechaCorte(id_producto, c);
-
-        return (fecha_corte == hoy);
-    }
-    
-   /*
-    * Devuelve el numero correspondiente al dia de hoy (dos digitos)
-    */
-    private int queDiaEsHoy() {
-        DateFormat dateFormat = new SimpleDateFormat("dd");
-        Date date = new Date();
-        return Integer.parseInt(dateFormat.format(date).toString());
-    }
-    
-   /*
-    * Devuelve True si la factura correspondiente a este mes ya fue generada
-    */
-    public boolean fueGeneradaFacturaPreviamente(String id_producto, Conexion c) {
-       String fecha_hoy = factura.obtenerFechaHoy();
-       ResultSet rs = factura.buscar(id_producto, c);
-       
-       try {
-            while(rs.next()) {
-
-                if (rs.getString(3).equals(fecha_hoy)){ return true; }
-            }
-       } catch (Exception e) {
-           
-       }
-    
-       return false;
-    }
-
 }

@@ -101,13 +101,6 @@ public class Factura {
                
     }
 
-   /*
-    * Devuele la fecha completa de hoy
-    */
-    public String obtenerFechaHoy() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        return dateFormat.format(date).toString();
-    }
+
     
 }

@@ -375,7 +375,7 @@ public class Main {
                                 Scanner sc3 = new Scanner(System.in);
                                 String observaciones = sc3.nextLine();
 
-                                FachadaFactura FF = new FachadaFactura(producto, tarjeta, observaciones, inn);
+                                FachadaFactura FF = new FachadaFactura(producto, tarjeta, observaciones, new FacturacionPostpago());
                                 Factura Fact = FF.emitir(inn);
                         break;
                         
