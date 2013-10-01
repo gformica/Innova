@@ -36,6 +36,6 @@ public class FachadaFactura {
     * Devuelve e imprime una factura, luego de registrarla
     */
     public Factura emitir(Conexion c){
-        return this.facturacion.emitir(id_producto, nro_tarjeta, obs_factura, c);
+        return this.facturacion.emitir(id_producto, nro_tarjeta, obs_factura, 0, c);
     }
 }

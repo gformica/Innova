@@ -16,7 +16,7 @@ import java.util.Date;
 public abstract class Facturacion {
     
     public abstract Factura emitir(String id_producto, String nro_tarjeta, 
-                                   String obs_factura, Conexion c);
+                                   String obs_factura, double monto_recarga, Conexion c);
     
       /*
     * Devuelve True si es el dia de corte del plan de un producto

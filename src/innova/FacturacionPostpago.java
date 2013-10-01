@@ -13,7 +13,7 @@ public class FacturacionPostpago extends Facturacion {
     
      @Override
      public Factura emitir(String id_producto, String nro_tarjeta, 
-            String obs_factura, Conexion c) {
+            String obs_factura, double monto_recarga, Conexion c) {
  
         
        Factura factura = new Factura();
