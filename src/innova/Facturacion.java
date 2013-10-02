@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package innova;
-
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,6 +12,7 @@ import java.util.Date;
  *
  * @author gabriel
  */
+
 public abstract class Facturacion {
     
     public abstract Factura emitir(String id_producto, String nro_tarjeta, 

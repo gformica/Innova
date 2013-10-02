@@ -9,11 +9,6 @@ package innova;
  * @author patricia
  */
 
-import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class FachadaFactura {
     
     private String id_producto;
