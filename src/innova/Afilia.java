@@ -77,9 +77,9 @@ public class Afilia {
    /*
     * Se usa para cambiar la vigencia de una afiliacion a FALSE
     */    
-    public void suspender(String id_producto, String id_plan, Conexion c) {
+    public void suspender(String id_producto, Conexion c) {
         String str = "UPDATE afilia SET vigente_afilia = false WHERE id_producto = '";
-        str += id_producto + "' and id_plan = '" + id_plan + "' and vigente_afilia = true"; 
+        str += id_producto + "' and vigente_afilia = true"; 
         c.execute(str);
     }
     

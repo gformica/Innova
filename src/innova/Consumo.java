@@ -37,15 +37,23 @@ public class Consumo {
    /*
     * Agrega un consumo a la tabla consumo
     */
-    public void registrar(Conexion c) {
-        String str ;
-        str = "INSERT INTO CONSUMO (id_producto, id_servicio, fecha_consumo, ";
-        str += "cant_consumo, cant_total_consumo) VALUES" + "(";
-        str += "'" + id_producto + "', '" + id_servicio + "', '" + fecha ;
-        str += "', '" + cantidad + "', '" + cantidad_total + "');" ;
-        c.execute(str);
+    public boolean registrar(Conexion c) {
+        Producto producto = new Producto();
+        if (producto.obtenerSaldo(this.id_producto, c) > 0) {
+            String str ;
+            str = "INSERT INTO CONSUMO (id_producto, id_servicio, fecha_consumo, ";
+            str += "cant_consumo, cant_total_consumo) VALUES" + "(";
+            str += "'" + id_producto + "', '" + id_servicio + "', '" + fecha ;
+            str += "', '" + cantidad + "', '" + cantidad_total + "');" ;
+            c.execute(str);
+            return true;
+        } else {
+            Afilia afilia = new Afilia();
+            afilia.suspender(this.id_producto, c);
+            return false;
+        }
     }
-
+    
    /*
     * Lista la informacion de todos los consumos realizados
     */

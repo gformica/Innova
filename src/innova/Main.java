@@ -110,7 +110,8 @@ public class Main {
             break;
                 
             case 2: msj = "---GESTION PRODUCTOS--- \n Acciones: \n 1) Registrar \n " ; 
-                    msj = msj + "2) Buscar \n 3) Eliminar \n 4) Listar \n Opcion nro: " ; 
+                    msj = msj + "2) Buscar \n 3) Eliminar \n 4) Listar \n"
+                            + " 5) Recargar saldo \n Opcion nro: " ; 
                     
                     System.out.println(msj);
                     in = new Scanner(System.in);
@@ -172,6 +173,17 @@ public class Main {
                                 } catch (Exception e){
 
                                 }
+                        break;
+                            
+                        case 5: System.out.println("---RECARGAR SALDO---\n ID del producto a recargar: ");
+                                Scanner sc6 = new Scanner(System.in);
+                                String id_a_recargar = sc6.nextLine();
+                                Producto producto5 = new Producto();
+                                System.out.println("Monto a recargar: ");
+                                Scanner sc7 = new Scanner(System.in);
+                                int monto = Integer.parseInt(sc7.nextLine());
+                                producto5.aumentarSaldo(id_a_recargar, monto, inn);
+                                System.out.println("Recarga exitosa. \n");
                         break;
                 }
             break;
@@ -272,7 +284,7 @@ public class Main {
                             Scanner sc8 = new Scanner(System.in);
                             String id_plan3 = sc8.nextLine();
                             Afilia afiliacion5 = new Afilia();
-                            afiliacion5.suspender(id_producto1, id_plan3, inn);
+                            afiliacion5.suspender(id_producto1, inn);
                     }
                     
             break;
@@ -306,7 +318,14 @@ public class Main {
                                 String cantidad_total = sc5.nextLine();
 
                                 Consumo consumo = new Consumo(producto, servicio, fecha, cantidad, cantidad_total);
-                                consumo.registrar(inn);
+                                boolean registrado = consumo.registrar(inn);
+                                if (registrado) {
+                                    System.out.println("Registro exitoso. \n");
+                                } else {
+                                    System.out.println("No dispone de saldo positivo,"
+                                            + " su plan fue suspendido. \n");
+                                }
+                                 
                         break;
 
                         case 2: System.out.println("---BUSCAR CONSUMOS DE UN PRODUCTO--- \n ID del producto: ");
