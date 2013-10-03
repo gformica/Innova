@@ -287,7 +287,7 @@ public class Main {
                     switch(opcion){ 
                         case 1: System.out.println("---REGISTRAR--- \n ID del producto: ");
                                 Scanner sc1 = new Scanner(System.in);
-                                String producto = sc1.nextLine(); /*STAND BY*/
+                                String producto = sc1.nextLine();
 
                                 System.out.println("ID del servicio: ");
                                 Scanner sc2 = new Scanner(System.in);

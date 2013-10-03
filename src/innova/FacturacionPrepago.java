@@ -16,12 +16,32 @@ public class FacturacionPrepago extends Facturacion {
             String obs_factura, double monto_recarga, Conexion c) {
         
        Factura factura = new Factura();
+       Producto producto = new Producto();
+       
+       // Se obtiene la fecha de hoy
+       
        String fecha_hoy = this.obtenerFechaHoy();
+       
+       
+       // Se obtiene el numero de la nueva factura
+       
        int nro_fact = factura.obtenerNro(c);
-       double saldo_actual = 0;
+       
+       
+       // Se aumenta el saldo de producto
+       
+       producto.aumentarSaldo(id_producto, monto_recarga, c);
+       
+       
+       double saldo_actual = producto.obtenerSaldo(id_producto, c);
+       
+       
+       // Se crea la factura
        
        factura = new Factura(Integer.toString(nro_fact), id_producto, fecha_hoy,
                           monto_recarga, true, nro_tarjeta, obs_factura);
+       
+       // Se registra la factura
        
        factura.registrar(c);
 

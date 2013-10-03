@@ -15,8 +15,7 @@ public class FachadaFactura {
     private String nro_tarjeta;
     private String obs_factura;
     private Facturacion facturacion;
-    
-    
+ 
 
     public FachadaFactura(String id_producto, String nro_tarjeta, 
                           String obs_factura, Facturacion facturacion){

@@ -15,7 +15,6 @@ public class FacturacionPostpago extends Facturacion {
      public Factura emitir(String id_producto, String nro_tarjeta, 
             String obs_factura, double monto_recarga, Conexion c) {
  
-        
        Factura factura = new Factura();
        String fecha_hoy = this.obtenerFechaHoy();
        int nro_fact = factura.obtenerNro(c);
@@ -37,16 +36,19 @@ public class FacturacionPostpago extends Facturacion {
        
        
        //Se calcula el costo basico del plan afiliado a dicho producto
+       
        Afilia afilia = new Afilia();
        double costo_plan = afilia.costoBasicoDePlan(id_producto, c);
        
        
        //Se calcula el costo por servicios de renta (paquete) agregados
+       
        Agrega agrega = new Agrega();
        double costo_servicio_renta = agrega.costoServicioRenta(id_producto, c);
        
        
        //Se calcula el costo por consumo de los servicios adicionados
+       
        Adiciona adiciona = new Adiciona();
        double costo_adicional = adiciona.costoServiciosAdicionados(id_producto, c);
        
