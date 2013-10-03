@@ -101,7 +101,7 @@ public class Producto {
     /*
      * Disminuye el saldo del producto 
      */
-    public void restarSaldo(String id, int disminucion, Conexion c) {
+    public void restarSaldo(String id, double disminucion, Conexion c) {
         String str = "select p.saldo from producto p where id_producto = '";
         str += id + "';";
         ResultSet rs = c.query(str);
@@ -139,6 +139,23 @@ public class Producto {
         }
         
         return saldo_actual;
+    }
+    
+    public String obtenerTipoPlan(String id, Conexion c) {
+        String str = "SELECT pl.tipo_plan FROM afilia a JOIN plan pl "
+                + " ON (pl.id_plan=a.id_plan) "
+                + "WHERE a.id_producto='"+id+"';";
+        ResultSet rs = c.query(str);
+        String tipo_plan = "";
+        try {
+            if (rs.next()) {
+                tipo_plan = rs.getString(1);
+            }
+        } catch (Exception e) {
+            
+        }
+        return tipo_plan;
+        
     }
 
 }

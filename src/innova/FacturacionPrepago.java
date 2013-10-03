@@ -26,16 +26,43 @@ public class FacturacionPrepago extends Facturacion {
        // Se obtiene el numero de la nueva factura
        
        int nro_fact = factura.obtenerNro(c);
+         
        
+       //Se calcula el costo basico del plan afiliado a dicho producto
        
-       // Se aumenta el saldo de producto
+       Afilia afilia = new Afilia();
+       double costo_plan = afilia.costoBasicoDePlan(id_producto, c);
+     
+       //Se calcula el costo por servicios de renta (paquete) agregados  
+       Agrega agrega = new Agrega();
+       double costo_servicio_renta = agrega.costoServicioRenta(id_producto, c);
        
+       // Se aumenta el saldo del producto
        producto.aumentarSaldo(id_producto, monto_recarga, c);
+      
+       Double saldo_actual = producto.obtenerSaldo(id_producto, c);
+       double saldo_a_restar = 0.0;
        
+       if (saldo_actual < costo_plan) {
+           obs_factura += "\n No se pudo renovar el plan";
+           //Se agrega a plan NO TIENE PLAN
+       }
+       else {
+           saldo_a_restar = costo_plan;
+       }
+     
+       if (saldo_actual < (costo_plan + costo_servicio_renta)) {
+           obs_factura += "\n No se pueden renovar los servicio de renta";
+           //Se desafilian los servicios de renta
+       }
+       else {
+           saldo_a_restar += costo_servicio_renta;
+       }
+
+       saldo_a_restar = costo_plan + costo_servicio_renta;
+       producto.restarSaldo(id_producto, saldo_a_restar, c);
        
-       double saldo_actual = producto.obtenerSaldo(id_producto, c);
-       
-       
+       double nuevo_saldo = saldo_actual - saldo_a_restar;
        // Se crea la factura
        
        factura = new Factura(Integer.toString(nro_fact), id_producto, fecha_hoy,
@@ -50,10 +77,13 @@ public class FacturacionPrepago extends Facturacion {
        System.out.println("ID del producto: " + id_producto);
        System.out.println("Fecha: " + fecha_hoy);
        System.out.println("Monto recarga: " + monto_recarga);
-       System.out.println("Saldo actual: " + saldo_actual);
+       System.out.println("Saldo actual: " + nuevo_saldo);
        System.out.println("Nro Tarjeta: " + nro_tarjeta);
+       System.out.println("Costo del plan: " + costo_plan + "\n");
+       System.out.println("Costo de los servicios de renta: " + 
+                            costo_servicio_renta + "\n");
        System.out.println("Observaciones: " + obs_factura + "\n");
-       
+
        
        return factura;
        

@@ -120,7 +120,8 @@ public class Afilia {
         String str = "SELECT pl.id_plan, pl.nomb_plan, pl.monto_plan, ";
         str += "pl.tipo_plan, pl.desc_plan FROM afilia af ";
         str += "JOIN plan pl ON (af.id_plan=pl.id_plan) ";
-        str += "WHERE af.id_producto = " + "'" + id_producto + "'";
+        str += "WHERE af.id_producto = " + "'" + id_producto + "'"
+                + " AND af.vigente_afilia='t'";
         ResultSet rs = c.query(str);
         return rs;
     }
@@ -140,6 +141,25 @@ public class Afilia {
         }
         
         return costo;
+    }
+    
+    public boolean esParteDelPlan(String id_producto, String id_servicio, 
+                                  Conexion c) {
+        
+        boolean es = false;
+        String str = "SELECT con.id_servicio FROM afilia af "
+                + "NATURAL JOIN posee p NATURAL JOIN conforma con "
+                + "WHERE af.id_producto='"+id_producto+"' AND "
+                + "af.vigente_afilia='t'";
+        ResultSet rs = c.query(str);
+        try {
+            while ((rs.next()) && (!es)) {
+                es = rs.getString(1).equals(id_servicio);
+            }
+        } catch (Exception e) {
+            
+        }
+        return es;
     }
 
 }

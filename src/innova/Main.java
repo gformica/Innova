@@ -17,6 +17,8 @@ import java.util.Date;
 public class Main {
     
     public static void main(String[] args) {
+        
+        
        
         String dbname = "innova" ;
         String user = "postgres" ;
@@ -25,6 +27,12 @@ public class Main {
         String msj;
         int opcion;
         
+        Afilia afilia = new Afilia();
+        if (afilia.esParteDelPlan("414-1495939","mocelS001103",inn)) {
+            System.out.println("Patricia come chicle del piso... a veces pues :)");
+        }
+      
+       /* 
         msj = "-----GESTION DE COBROS-----";
         System.out.println(msj);
         
@@ -424,6 +432,8 @@ public class Main {
                     }
                     break;
         };
+        *     * */
+
     }
 }
 

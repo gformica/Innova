@@ -17,6 +17,7 @@ public class Consumo {
     String cantidad;
     String cantidad_total;
 
+
     
     public Consumo() {
         this.id_producto = null;
@@ -24,9 +25,12 @@ public class Consumo {
         this.fecha = null;
         this.cantidad = null;
         this.cantidad_total = null;
+      
     }
     
-    public Consumo(String id_producto, String id_servicio, String fecha, String cantidad, String cantidad_total) {
+    public Consumo(String id_producto, String id_servicio, String fecha, 
+                   String cantidad, String cantidad_total) {
+        
         this.id_producto = id_producto;
         this.id_servicio = id_servicio;
         this.fecha = fecha;
@@ -34,25 +38,48 @@ public class Consumo {
         this.cantidad_total = cantidad_total;
     }
     
-   /*
-    * Agrega un consumo a la tabla consumo
-    */
-    public boolean registrar(Conexion c) {
+    
+   
+    public boolean registrarConsumoPrepago(Conexion c) {
+          //Se verifica si el servicio es parte del plan
+        Afilia afilia = new Afilia();
+        afilia.esParteDelPlan(this.id_producto,this.id_servicio,c);
+        
+            //Si es parte del plan se busca si se ha consumido completamente
+        //Si no es parte del plan se busca cuanto consumio
+        double monto_consumo = 0;
         Producto producto = new Producto();
-        if (producto.obtenerSaldo(this.id_producto, c) > 0) {
+
+        if (producto.obtenerSaldo(id_producto, c) >= monto_consumo) {
             String str ;
             str = "INSERT INTO CONSUMO (id_producto, id_servicio, fecha_consumo, ";
             str += "cant_consumo, cant_total_consumo) VALUES" + "(";
             str += "'" + id_producto + "', '" + id_servicio + "', '" + fecha ;
             str += "', '" + cantidad + "', '" + cantidad_total + "');" ;
             c.execute(str);
+            
             return true;
         } else {
-            Afilia afilia = new Afilia();
-            afilia.suspender(this.id_producto, c);
+            afilia.suspender(id_producto, c);
             return false;
         }
+        
     }
+    
+     public boolean registrarConsumoPostpago(Conexion c) {
+
+        String str ;
+        str = "INSERT INTO CONSUMO (id_producto, id_servicio, fecha_consumo, ";
+        str += "cant_consumo, cant_total_consumo) VALUES" + "(";
+        str += "'" + id_producto + "', '" + id_servicio + "', '" + fecha ;
+        str += "', '" + cantidad + "', '" + cantidad_total + "');" ;
+        c.execute(str);
+        
+        Afilia afilia = new Afilia();
+        afilia.suspender(id_producto, c);
+        return true;
+    }
+    
     
    /*
     * Lista la informacion de todos los consumos realizados
