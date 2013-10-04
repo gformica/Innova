@@ -17,15 +17,12 @@ public class Consumo {
     String cantidad;
     String cantidad_total;
 
-
-    
     public Consumo() {
         this.id_producto = null;
         this.id_servicio = null;
         this.fecha = null;
         this.cantidad = null;
         this.cantidad_total = null;
-      
     }
     
     public Consumo(String id_producto, String id_servicio, String fecha, 
@@ -38,22 +35,21 @@ public class Consumo {
         this.cantidad_total = cantidad_total;
     }
     
-    
    
     public boolean registrarConsumoPrepago(Conexion c) {
         Afilia afilia = new Afilia();
         
         //Se verifica si el servicio es parte del plan
         if (afilia.esParteDelPlan(this.id_producto,this.id_servicio,c)) {
-            ResultSet rs = this.cantidadDeServicioEnPlan(id_producto, id_servicio, c);    
-            int cantidad_servicio = this.resultSetToInt(rs);
+            ResultSet rs = this.obtenerCantidadDeServicioEnPlan(id_producto, id_servicio, c);    
+            int cantidad_servicio = this.convertirResultSetAInt(rs);
             rs = this.consumoTotalServicio(id_producto, id_servicio, c);
-            int total_consumido = this.resultSetToInt(rs);
+            int total_consumido = this.convertirResultSetAInt(rs);
             int cantidad = Integer.parseInt(this.cantidad);
             
             if (total_consumido >= cantidad_servicio) {
                 double monto;
-                monto = this.resultSetToDouble(this.buscarMontoUnidadDeServicio(id_servicio, c));
+                monto = this.convertirResultSetADouble(this.buscarMontoUnidadDeServicio(id_servicio, c));
                 this.cobrarPorUnidad(monto, c);
                 
             }
@@ -89,8 +85,7 @@ public class Consumo {
         } else {
             afilia.suspender(id_producto, c);
             return false;
-        }
-        
+        }    
     }
     
      public boolean registrarConsumoPostpago(Conexion c) {
@@ -106,7 +101,6 @@ public class Consumo {
         afilia.suspender(id_producto, c);
         return true;
     }
-    
     
    /*
     * Lista la informacion de todos los consumos realizados
@@ -154,8 +148,10 @@ public class Consumo {
         c.execute(str);
     }
     
-     
-    private ResultSet cantidadDeServicioEnPlan(String id_producto, String id_servicio,
+    /*
+     * Devuelve la cantidad de plan que ofrece un servicio
+     */
+    private ResultSet obtenerCantidadDeServicioEnPlan(String id_producto, String id_servicio,
                                           Conexion c) {
         
         String str = "SELECT c.cant_conforma FROM afilia a "
@@ -168,7 +164,10 @@ public class Consumo {
         return c.query(str);
     }
     
-    private int resultSetToInt(ResultSet rs) {
+    /*
+     * Convierte un resultset en entero
+     */
+    private int convertirResultSetAInt(ResultSet rs) {
         try {
             if (rs.next()) {
                 return Integer.parseInt(rs.getString(1));
@@ -179,7 +178,10 @@ public class Consumo {
         return 0;
     }
     
-    private double resultSetToDouble(ResultSet rs) {
+    /*
+     * Convierte un resultset en un double
+     */
+    private double convertirResultSetADouble(ResultSet rs) {
         try {
             if (rs.next()) 
                 return Double.parseDouble(rs.getString(1));
@@ -189,19 +191,25 @@ public class Consumo {
         return 0.0;
     }
     
+    /*
+     * Devuelve un result ser con el monto por la unidad de un servicio
+     */
     private ResultSet buscarMontoUnidadDeServicio(String id_servicio, Conexion c) {
         String str = "SELECT monto FROM servicio WHERE id_servicio='"+
                 this.id_servicio+"'";
         return c.query(str);
     }
     
+    /*
+     * Realiza el procedimiento de cobrar por unidad un servicio
+     */
     private void cobrarPorUnidad(double monto, Conexion c) {
         
-        monto = this.resultSetToDouble(this.buscarMontoUnidadDeServicio(this.id_servicio, c));
+        monto = this.convertirResultSetADouble(this.buscarMontoUnidadDeServicio(this.id_servicio, c));
         double restar = monto*Integer.parseInt(this.cantidad);
-        //Restar saldo a producto
+        // Restar saldo a producto
         Producto prod = new Producto();
-        prod.restarSaldo(this.id_producto, restar, c);
+        prod.sumarSaldo(this.id_producto, -1*restar, c);
     }
 }
    

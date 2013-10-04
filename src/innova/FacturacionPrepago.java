@@ -19,33 +19,28 @@ public class FacturacionPrepago extends Facturacion {
        Producto producto = new Producto();
        
        // Se obtiene la fecha de hoy
-       
        String fecha_hoy = this.obtenerFechaHoy();
        
-       
        // Se obtiene el numero de la nueva factura
-       
        int nro_fact = factura.obtenerNro(c);
          
-       
-       //Se calcula el costo basico del plan afiliado a dicho producto
-       
+       // Se calcula el costo basico del plan afiliado a dicho producto
        Afilia afilia = new Afilia();
        double costo_plan = afilia.costoBasicoDePlan(id_producto, c);
      
-       //Se calcula el costo por servicios de renta (paquete) agregados  
+       // Se calcula el costo por servicios de renta (paquete) agregados  
        Agrega agrega = new Agrega();
        double costo_servicio_renta = agrega.costoServicioRenta(id_producto, c);
        
        // Se aumenta el saldo del producto
-       producto.aumentarSaldo(id_producto, monto_recarga, c);
+       producto.sumarSaldo(id_producto, monto_recarga, c);
       
        Double saldo_actual = producto.obtenerSaldo(id_producto, c);
        double saldo_a_restar = 0.0;
        
        if (saldo_actual < costo_plan) {
            obs_factura += "\n No se pudo renovar el plan";
-           //Se agrega a plan NO TIENE PLAN
+           // Se agrega a plan NO TIENE PLAN
        }
        else {
            saldo_a_restar = costo_plan;
@@ -53,14 +48,14 @@ public class FacturacionPrepago extends Facturacion {
      
        if (saldo_actual < (costo_plan + costo_servicio_renta)) {
            obs_factura += "\n No se pueden renovar los servicio de renta";
-           //Se desafilian los servicios de renta
+           // Se desafilian los servicios de renta
        }
        else {
            saldo_a_restar += costo_servicio_renta;
        }
 
        saldo_a_restar = costo_plan + costo_servicio_renta;
-       producto.restarSaldo(id_producto, saldo_a_restar, c);
+       producto.sumarSaldo(id_producto, -1*saldo_a_restar, c);
        
        double nuevo_saldo = saldo_actual - saldo_a_restar;
        // Se crea la factura
@@ -84,7 +79,6 @@ public class FacturacionPrepago extends Facturacion {
                             costo_servicio_renta + "\n");
        System.out.println("Observaciones: " + obs_factura + "\n");
 
-       
        return factura;
        
      }
