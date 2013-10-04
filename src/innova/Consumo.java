@@ -45,16 +45,30 @@ public class Consumo {
         
         //Se verifica si el servicio es parte del plan
         if (afilia.esParteDelPlan(this.id_producto,this.id_servicio,c)) {
-            ResultSet rs = this.cantidadDeServicioEnPlan(id_producto, id_servicio, c);
-            
+            ResultSet rs = this.cantidadDeServicioEnPlan(id_producto, id_servicio, c);    
             int cantidad_servicio = this.resultSetToInt(rs);
             rs = this.consumoTotalServicio(id_producto, id_servicio, c);
-            int consumido = this.resultSetToInt(rs);
-            if (consumido >= cantidad_servicio) {
-                //cobra normal
+            int total_consumido = this.resultSetToInt(rs);
+            int cantidad = Integer.parseInt(this.cantidad);
+            
+            if (total_consumido >= cantidad_servicio) {
+                double monto;
+                monto = this.resultSetToDouble(this.buscarMontoUnidadDeServicio(id_servicio, c));
+                this.cobrarPorUnidad(monto, c);
+                
             }
             else {
-                //cobra por plan
+               if (total_consumido + cantidad <= cantidad_servicio) {
+                   //se agrega consumo normal
+               } 
+               else {
+                   int del_plan = cantidad_servicio - total_consumido;
+                   //se agrega el consumo normal
+                   
+                   int excedente = cantidad - del_plan;
+                   double y = excedente*cantidad;
+                   this.cobrarPorUnidad(y,c);  
+               }
             }
             
         }
@@ -164,4 +178,32 @@ public class Consumo {
         }
         return 0;
     }
+    
+    private double resultSetToDouble(ResultSet rs) {
+        try {
+            if (rs.next()) 
+                return Double.parseDouble(rs.getString(1));
+        } catch (Exception e) {
+                
+        } 
+        return 0.0;
+    }
+    
+    private ResultSet buscarMontoUnidadDeServicio(String id_servicio, Conexion c) {
+        String str = "SELECT monto FROM servicio WHERE id_servicio='"+
+                this.id_servicio+"'";
+        return c.query(str);
+    }
+    
+    private void cobrarPorUnidad(double monto, Conexion c) {
+        
+        monto = this.resultSetToDouble(this.buscarMontoUnidadDeServicio(this.id_servicio, c));
+        double restar = monto*Integer.parseInt(this.cantidad);
+        //Restar saldo a producto
+        Producto prod = new Producto();
+        prod.restarSaldo(this.id_producto, restar, c);
+    }
 }
+   
+    
+
