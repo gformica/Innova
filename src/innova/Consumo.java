@@ -41,11 +41,24 @@ public class Consumo {
     
    
     public boolean registrarConsumoPrepago(Conexion c) {
-          //Se verifica si el servicio es parte del plan
         Afilia afilia = new Afilia();
-        afilia.esParteDelPlan(this.id_producto,this.id_servicio,c);
         
-            //Si es parte del plan se busca si se ha consumido completamente
+        //Se verifica si el servicio es parte del plan
+        if (afilia.esParteDelPlan(this.id_producto,this.id_servicio,c)) {
+            ResultSet rs = this.cantidadDeServicioEnPlan(id_producto, id_servicio, c);
+            
+            int cantidad_servicio = this.resultSetToInt(rs);
+            rs = this.consumoTotalServicio(id_producto, id_servicio, c);
+            int consumido = this.resultSetToInt(rs);
+            if (consumido >= cantidad_servicio) {
+                //cobra normal
+            }
+            else {
+                //cobra por plan
+            }
+            
+        }
+        
         //Si no es parte del plan se busca cuanto consumio
         double monto_consumo = 0;
         Producto producto = new Producto();
@@ -125,5 +138,30 @@ public class Consumo {
                 + "'"+ id_producto+"' AND id_servicio='" + id_servicio +
                 "' AND fecha_consumo='"+fecha+"'";
         c.execute(str);
+    }
+    
+     
+    private ResultSet cantidadDeServicioEnPlan(String id_producto, String id_servicio,
+                                          Conexion c) {
+        
+        String str = "SELECT c.cant_conforma FROM afilia a "
+                + "NATURAL JOIN plan p "
+                + "NATURAL JOIN posee po "
+                + "NATURAL JOIN conforma c "
+                + "WHERE a.id_producto='"+id_producto+"' "
+                + "AND c.id_servicio='"+id_servicio+"';";
+        
+        return c.query(str);
+    }
+    
+    private int resultSetToInt(ResultSet rs) {
+        try {
+            if (rs.next()) {
+                return Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            
+        }
+        return 0;
     }
 }
