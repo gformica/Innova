@@ -43,7 +43,6 @@ public class FachadaConsumo {
             ResultSet rs = auxCons.consumoTotalServicio(this.id_producto, this.id_servicio, c);
             int totalConsumido = this.resultSetToInt(rs);
             
-            
             if (totalConsumido >= cantidadServicio) {
                 double monto;
                 monto = this.buscarMontoUnidadDeServicio(this.id_servicio, c);
@@ -93,11 +92,15 @@ public class FachadaConsumo {
         this.consumo.registrar(c);
         return true;
     }
-    
-    /*
-     * Registra un consumo exitoso en la base de datos
-     */
-    public boolean registrar(Conexion c) {
+   
+    public boolean registrarConsumoPostpago(Conexion c) {
+        Consumo auxCons = new Consumo();
+        ResultSet rs = auxCons.consumoTotalServicio(this.id_producto, this.id_servicio, c);
+        int totalConsumido = this.resultSetToInt(rs) + Integer.parseInt(this.cantidad);
+        String fecha = this.obtenerFechaHora();
+        this.consumo = new Consumo(this.id_producto,this.id_servicio,fecha,this.cantidad,
+                                    String.valueOf(totalConsumido));
+        
         return this.consumo.registrar(c);
     }
     

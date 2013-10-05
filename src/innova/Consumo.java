@@ -36,57 +36,7 @@ public class Consumo {
     }
     
    
-    public boolean registrarConsumoPrepago(Conexion c) {
-        Afilia afilia = new Afilia();
-        
-        //Se verifica si el servicio es parte del plan
-        if (afilia.esParteDelPlan(this.id_producto,this.id_servicio,c)) {
-            ResultSet rs = this.obtenerCantidadDeServicioEnPlan(id_producto, id_servicio, c);    
-            int cantidad_servicio = this.convertirResultSetAInt(rs);
-            rs = this.consumoTotalServicio(id_producto, id_servicio, c);
-            int total_consumido = this.convertirResultSetAInt(rs);
-            int cantidad = Integer.parseInt(this.cantidad);
-            
-            if (total_consumido >= cantidad_servicio) {
-                double monto;
-                monto = this.convertirResultSetADouble(this.buscarMontoUnidadDeServicio(id_servicio, c));
-                this.cobrarPorUnidad(monto, c);
-                
-            }
-            else {
-               if (total_consumido + cantidad <= cantidad_servicio) {
-                   //se agrega consumo normal
-               } 
-               else {
-                   int del_plan = cantidad_servicio - total_consumido;
-                   //se agrega el consumo normal
-                   
-                   int excedente = cantidad - del_plan;
-                   double y = excedente*cantidad;
-                   this.cobrarPorUnidad(y,c);  
-               }
-            }
-            
-        }
-        
-        //Si no es parte del plan se busca cuanto consumio
-        double monto_consumo = 0;
-        Producto producto = new Producto();
-
-        if (producto.obtenerSaldo(id_producto, c) >= monto_consumo) {
-            String str ;
-            str = "INSERT INTO CONSUMO (id_producto, id_servicio, fecha_consumo, ";
-            str += "cant_consumo, cant_total_consumo) VALUES" + "(";
-            str += "'" + id_producto + "', '" + id_servicio + "', '" + fecha ;
-            str += "', '" + cantidad + "', '" + cantidad_total + "');" ;
-            c.execute(str);
-            
-            return true;
-        } else {
-            afilia.suspender(id_producto, c);
-            return false;
-        }    
-    }
+  
     
      public boolean registrar(Conexion c) {
 
@@ -202,17 +152,7 @@ public class Consumo {
         return c.query(str);
     }
     
-    /*
-     * Realiza el procedimiento de cobrar por unidad un servicio
-     */
-    private void cobrarPorUnidad(double monto, Conexion c) {
-        
-        monto = this.convertirResultSetADouble(this.buscarMontoUnidadDeServicio(this.id_servicio, c));
-        double restar = monto*Integer.parseInt(this.cantidad);
-        // Restar saldo a producto
-        Producto prod = new Producto();
-        prod.sumarSaldo(this.id_producto, -1*restar, c);
-    }
+  
 
 }
    
