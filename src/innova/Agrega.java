@@ -150,4 +150,25 @@ public class Agrega {
         return costo;
     }
     
+    public boolean esParteDelServicioRenta(String id_producto,String id_servicio,
+                                           Conexion c) {
+        
+        String str = "SELECT c.cant_conforma FROM agrega a "
+             + "NATURAL JOIN conforma c "
+             + "WHERE a.id_producto='"+id_producto +"' "
+             + "AND c.id_servicio='"+id_servicio+"'";
+        
+        boolean p = false;
+        ResultSet rs = c.query(str);
+        try { 
+            if (rs.next()) {
+                p = true;
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        return p;   
+    } 
+    
 }
