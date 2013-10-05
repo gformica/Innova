@@ -3,11 +3,6 @@
  * and open the template in the editor.
  */
 package innova;
-
-
-import java.sql.ResultSet;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,28 +11,28 @@ import static org.junit.Assert.*;
  * @author gabriel
  */
 
-
 public class ClienteTest {
     
     public ClienteTest() {
+    
     }
     
-
-
-    /**
-     * Test of registrar method, of class Cliente.
+    /*
+     * Test de los metodos de la clase Cliente, en orden.
      */
-    
     @Test
     public void testTodo() {
-        registrar();
-        buscar();
-        eliminar();
+        Conexion c = new Conexion("innova","postgres","pp");
+        registrar(c);
+        buscar(c);
+        eliminar(c);
     }
     
-    public void registrar() {
+    /*
+     * Test del metodo registrar, de la Cliente.
+     */
+    public void registrar(Conexion c) {
         System.out.println("Se agregaran 10 clientes");
-        Conexion c = new Conexion("innova","postgres","pp");
         for (int i = 0; i < 10; i++) {
             String ci = "V-9900000"+Integer.toString(i);
             String id = "cliente"+Integer.toString(i);
@@ -48,14 +43,11 @@ public class ClienteTest {
         }
     }
 
-    /**
-     * Test of buscar method, of class Cliente.
+    /*
+     * Test del metodo buscar, de la Cliente.
      */
-    
-  
-    public void buscar() {
+    public void buscar(Conexion c) {
         System.out.println("Se buscaran los clientes agregados");
-        Conexion c = new Conexion("innova","postgres","pp");
         Cliente instance = new Cliente();
         for (int i = 0; i < 10; i++) {
             try{
@@ -68,14 +60,11 @@ public class ClienteTest {
         }
     }
 
-    /**
-     * Test of consultar method, of class Cliente.
+    /*
+     * Test del metodo eliminar, de la clase Cliente.
      */
-  
-    
-    public void eliminar() {
+    public void eliminar(Conexion c) {
         System.out.println("se eliminaran los clientes agregados");
-        Conexion c = new Conexion("innova","postgres","pp");
         Cliente instance = new Cliente();  
         for (int i = 0; i < 10; i++) {
             String id = "V-9900000"+Integer.toString(i);

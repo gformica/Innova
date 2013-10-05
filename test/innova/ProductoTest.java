@@ -3,8 +3,6 @@
  * and open the template in the editor.
  */
 package innova;
-
-import java.sql.ResultSet;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -12,39 +10,44 @@ import static org.junit.Assert.*;
  *
  * @author gabriel
  */
+
 public class ProductoTest {
     
     public ProductoTest() {
     }
 
-    /**
-     * Test of registrar method, of class Producto.
+    /*
+     * Test de los metodos de Producto, en orden
      */
-    
     @Test
     public void testTodo() {
-        registrar();
-        buscar();
-        eliminar();
+        Conexion c = new Conexion("innova","postgres","pp");
+        registrar(c);
+        buscar(c);
+        eliminar(c);
     }
     
-    public void registrar() {
+    /*
+     * Test del metodo registrar de la clase Producto
+     */
+    public void registrar(Conexion c) {
         System.out.println("Se agregaran 10 productos a la cliente Patricia "
                 + "Wilthew");
-        Conexion c = new Conexion("innova","postgres","pp");
        
         for (int i = 0; i < 10; i++) {
             String id_c = "V-21081301";
             String id_p = "producto"+Integer.toString(i);
             String nombre_p = "producto"+Integer.toString(i);
-            Producto instance = new Producto(id_c,id_p,nombre_p);
+            Producto instance = new Producto(id_c,id_p,nombre_p, 20.0);
             
         }    
     }
 
-    public void buscar() {
+    /*
+     * Test del metodo buscar de la clase Buscar
+     */
+    public void buscar(Conexion c) {
         System.out.println("Se buscaran los productos recien agregados");
-        Conexion c = new Conexion("innova","postgres","pp");
         Cliente instance = new Cliente();
         for (int i = 0; i < 10; i++) {
             try{
@@ -57,9 +60,11 @@ public class ProductoTest {
         }
     }
     
-    public void eliminar() {
+    /*
+     * Test del metodo eliminar de la clase producto
+     */
+    public void eliminar(Conexion c) {
         System.out.println("Se eliminaran los productos agregados");
-        Conexion c = new Conexion("innova","postgres","pp");
         Cliente instance = new Cliente();  
         for (int i = 0; i < 10; i++) {
             String id = "producto"+Integer.toString(i);
@@ -71,8 +76,5 @@ public class ProductoTest {
             }
         }
     }
-
-  
-  
 
 }

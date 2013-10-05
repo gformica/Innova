@@ -21,7 +21,6 @@ public abstract class Facturacion {
    /*
     * Devuelve True si es el dia de corte del plan de un producto
     */
-   
      public boolean esFechaDeCorte(String id_producto, Conexion c) {
         int hoy = this.queDiaEsHoy();
         Afilia afilia = new Afilia();

@@ -3,10 +3,8 @@
  * and open the template in the editor.
  */
 package innova;
-
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  *
@@ -26,6 +24,9 @@ public class FachadaConsumo {
         this.consumo = null;
     }
 
+    /*
+     * Registra un consumo de un producto prepago en la base de datos
+     */
     public boolean registrarConsumoPrepago(Conexion c) {
       
         if (!this.tieneSaldo(c)) {
@@ -93,16 +94,17 @@ public class FachadaConsumo {
         return true;
     }
     
+    /*
+     * Registra un consumo exitoso en la base de datos
+     */
     public boolean registrar(Conexion c) {
         return this.consumo.registrar(c);
     }
-    
     
     /*
      * Devuelve en un ResultSet la cantidad de servicio que tiene un producto
      * en su plan afiliado
      */
-   
     private int cantidadDeServicioEnPlan(String id_producto, String id_servicio,Conexion c) {
         
         String str = "SELECT c.cant_conforma FROM afilia a "
@@ -143,7 +145,6 @@ public class FachadaConsumo {
      * Convierte el primer string de un result set a un double. Retorna 0 si
      * si el ResultSet es nulo o no puede convertir a double
      */
-    
     private double resultSetToDouble(ResultSet rs) {
         try {
             if (rs.next()) 
@@ -157,7 +158,6 @@ public class FachadaConsumo {
     /*
      * Devuelve el monto de la unidad de un servicio
      */
-    
     private double buscarMontoUnidadDeServicio(String id_servicio, Conexion c) {
         String str = "SELECT monto FROM servicio WHERE id_servicio='"+
                 this.id_servicio+"'";
@@ -176,7 +176,6 @@ public class FachadaConsumo {
     /*
      * Metodo auxiliar que resta el saldo del producto
      */
-    
     private boolean consumirMaximoQuePueda(Conexion c) {
         
         double monto = this.buscarMontoUnidadDeServicio(this.id_servicio, c);
@@ -198,10 +197,16 @@ public class FachadaConsumo {
         return i > 0;
     }
     
+    /*
+     * Devuelve true si un cliente posee saldo
+     */
     private boolean tieneSaldo(Conexion c) {
         return ((new Producto()).obtenerSaldo(this.id_producto, c) > 0);
     }
 
+    /*
+     * Devuelve la fecha y hora actual
+     */
     private String obtenerFechaHora() {
           java.util.Date date = new java.util.Date();
           String h = (new Timestamp(date.getTime())).toString();
