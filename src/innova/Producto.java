@@ -40,8 +40,8 @@ public class Producto {
         str += " " + "values";
         str += "(" + "'"+ nomb_producto + "'" + ", " ;
         str += "'" + id_producto + "'" + ", ";
-        str += "'" + id_cliente + "'" + ")" ;
-        str += "'" + saldo;
+        str += "'" + id_cliente + "', " ;
+        str += "'" + saldo + "')" ;
      
         c.execute(str);
         
