@@ -98,9 +98,7 @@ public class Factura {
             
         }
         return 0;
-               
+
     }
 
-
-    
 }
