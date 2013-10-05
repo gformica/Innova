@@ -93,7 +93,7 @@ public class Consumo {
         
     }
     
-     public boolean registrarConsumoPostpago(Conexion c) {
+     public boolean registrar(Conexion c) {
 
         String str ;
         str = "INSERT INTO CONSUMO (id_producto, id_servicio, fecha_consumo, ";
@@ -101,9 +101,10 @@ public class Consumo {
         str += "'" + id_producto + "', '" + id_servicio + "', '" + fecha ;
         str += "', '" + cantidad + "', '" + cantidad_total + "');" ;
         c.execute(str);
-        
+        /*
         Afilia afilia = new Afilia();
         afilia.suspender(id_producto, c);
+        * */
         return true;
     }
     
@@ -155,54 +156,10 @@ public class Consumo {
     }
     
      
-    private ResultSet cantidadDeServicioEnPlan(String id_producto, String id_servicio,
-                                          Conexion c) {
-        
-        String str = "SELECT c.cant_conforma FROM afilia a "
-                + "NATURAL JOIN plan p "
-                + "NATURAL JOIN posee po "
-                + "NATURAL JOIN conforma c "
-                + "WHERE a.id_producto='"+id_producto+"' "
-                + "AND c.id_servicio='"+id_servicio+"';";
-        
-        return c.query(str);
-    }
+
     
-    private int resultSetToInt(ResultSet rs) {
-        try {
-            if (rs.next()) {
-                return Integer.parseInt(rs.getString(1));
-            }
-        } catch (Exception e) {
-            
-        }
-        return 0;
-    }
+ 
     
-    private double resultSetToDouble(ResultSet rs) {
-        try {
-            if (rs.next()) 
-                return Double.parseDouble(rs.getString(1));
-        } catch (Exception e) {
-                
-        } 
-        return 0.0;
-    }
-    
-    private ResultSet buscarMontoUnidadDeServicio(String id_servicio, Conexion c) {
-        String str = "SELECT monto FROM servicio WHERE id_servicio='"+
-                this.id_servicio+"'";
-        return c.query(str);
-    }
-    
-    private void cobrarPorUnidad(double monto, Conexion c) {
-        
-        monto = this.resultSetToDouble(this.buscarMontoUnidadDeServicio(this.id_servicio, c));
-        double restar = monto*Integer.parseInt(this.cantidad);
-        //Restar saldo a producto
-        Producto prod = new Producto();
-        prod.restarSaldo(this.id_producto, restar, c);
-    }
 }
    
     
