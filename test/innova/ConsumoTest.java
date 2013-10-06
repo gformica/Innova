@@ -61,7 +61,7 @@ public class ConsumoTest {
         String id_c = "V-21081301";
         String id_p = "producto"+Integer.toString(i);
         String nombre_p = "producto"+Integer.toString(i);
-        Producto instance = new Producto(id_c,id_p,nombre_p, 20.0);
+        ProductoSimple instance = new ProductoSimple(id_c,id_p,nombre_p, 20.0);
         
         for (i = 0; i < 10; i++) {
             String fecha = "2007-12-10 13:00:1"+Integer.toString(i);

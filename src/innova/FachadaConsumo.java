@@ -35,10 +35,16 @@ public class FachadaConsumo {
         
         Afilia afilia = new Afilia();
         String fechahora = this.obtenerFechaHora();
+        Agrega agrega = new Agrega();
       
         //Se verifica si el servicio es parte del plan
-        if (afilia.esParteDelPlan(this.id_producto,this.id_servicio,c)) {
-            int cantidadServicio = this.cantidadDeServicioEnPlan(this.id_producto, this.id_servicio, c);    
+        if (afilia.esParteDelPlan(this.id_producto,this.id_servicio,c) ||
+            agrega.esParteDelServicioRenta(this.id_producto,this.id_servicio,c)) {
+            
+            int cantidadServicio = this.cantidadDeServicioEnPlan(c);
+            int cantidadServicio2 = this.cantidadDeServicioEnSR(c);
+            cantidadServicio += cantidadServicio2;
+            
             Consumo auxCons = new Consumo();
             ResultSet rs = auxCons.consumoTotalServicio(this.id_producto, this.id_servicio, c);
             int totalConsumido = this.resultSetToInt(rs);
@@ -93,6 +99,7 @@ public class FachadaConsumo {
         return true;
     }
    
+    
     public boolean registrarConsumoPostpago(Conexion c) {
         Consumo auxCons = new Consumo();
         ResultSet rs = auxCons.consumoTotalServicio(this.id_producto, this.id_servicio, c);
@@ -106,16 +113,18 @@ public class FachadaConsumo {
     
     /*
      * Devuelve en un ResultSet la cantidad de servicio que tiene un producto
-     * en su plan afiliado
+     * en su plan afiliado. Retorna 0  si el producto no tiene ese servicio
+     * como parte de su plan basico.
      */
-    private int cantidadDeServicioEnPlan(String id_producto, String id_servicio,Conexion c) {
+    private int cantidadDeServicioEnPlan(Conexion c) {
         
         String str = "SELECT c.cant_conforma FROM afilia a "
                 + "NATURAL JOIN plan p "
                 + "NATURAL JOIN posee po "
                 + "NATURAL JOIN conforma c "
-                + "WHERE a.id_producto='"+id_producto+"' "
-                + "AND c.id_servicio='"+id_servicio+"';";
+                + "WHERE a.id_producto='"+this.id_producto+"' "
+                + "AND c.id_servicio='"+this.id_servicio+"' "
+                + "AND a.vigente_afilia='t';";
         
         int cantidad = 0;
         ResultSet rs = c.query(str);
@@ -126,6 +135,33 @@ public class FachadaConsumo {
         }
         return cantidad;
     }
+    
+    /*
+     * Devuelve en un ResultSet la cantidad de servicio que tiene un producto
+     * en su servicio de Renta agregado. Retorna 0  si no el producto no 
+     * tiene un servicio de renta con ese servicio.
+     */ 
+    private int cantidadDeServicioEnSR(Conexion c) {
+        String str = "SELECT c.cant_conforma FROM agrega a "
+                + "NATURAL JOIN conforma c "
+                + "WHERE a.id_producto='"+this.id_producto +"' "
+                + "AND c.id_servicio='"+this.id_servicio+"'";
+        
+        
+        int cantidad = 0;
+        ResultSet rs = c.query(str);
+        try { 
+            if (rs.next()) {
+                cantidad = Integer.parseInt(rs.getString(1));
+            }
+        } catch (Exception e) {
+            
+        }
+        
+        return cantidad;
+    }
+    
+
     
     /*
      * Convierte el primer string de un result set a un entero. Retorna 0 si
@@ -184,7 +220,7 @@ public class FachadaConsumo {
         double monto = this.buscarMontoUnidadDeServicio(this.id_servicio, c);
         int cantidad = Integer.parseInt(this.cantidad);
       
-        Producto producto = new Producto();
+        ProductoSimple producto = new ProductoSimple();
         double saldo = producto.obtenerSaldo(this.id_producto, c);
        
         int i;
@@ -204,7 +240,7 @@ public class FachadaConsumo {
      * Devuelve true si un cliente posee saldo
      */
     private boolean tieneSaldo(Conexion c) {
-        return ((new Producto()).obtenerSaldo(this.id_producto, c) > 0);
+        return ((new ProductoSimple()).obtenerSaldo(this.id_producto, c) > 0);
     }
 
     /*

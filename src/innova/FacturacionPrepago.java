@@ -16,7 +16,7 @@ public class FacturacionPrepago extends Facturacion {
             String obs_factura, double monto_recarga, Conexion c) {
         
        Factura factura = new Factura();
-       Producto producto = new Producto();
+       ProductoSimple producto = new ProductoSimple();
        
        // Se obtiene la fecha de hoy
        String fecha_hoy = this.obtenerFechaHoy();

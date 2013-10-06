@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
  * @author gabriel
  */
 
-public class ProductoTest {
+public class ProductoSimpleTest {
     
-    public ProductoTest() {
+    public ProductoSimpleTest() {
     }
 
     /*
@@ -38,7 +38,7 @@ public class ProductoTest {
             String id_c = "V-21081301";
             String id_p = "producto"+Integer.toString(i);
             String nombre_p = "producto"+Integer.toString(i);
-            Producto instance = new Producto(id_c,id_p,nombre_p, 20.0);
+            ProductoSimple instance = new ProductoSimple(id_c,id_p,nombre_p, 20.0);
             
         }    
     }

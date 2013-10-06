@@ -39,7 +39,7 @@ public class FacturaTest {
         String id_c = "V-21081301";
         String id_p = "producto"+Integer.toString(i);
         String nombre_p = "producto"+Integer.toString(i);
-        Producto instance = new Producto(id_c,id_p,nombre_p, 20.0);
+        Producto instance = new ProductoSimple(id_c,id_p,nombre_p, 20.0);
         
         for (i = 0; i < 10; i++) {
             String nro = "9999"+Integer.toString(i);
