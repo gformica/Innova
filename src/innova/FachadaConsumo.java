@@ -220,7 +220,7 @@ public class FachadaConsumo {
         double monto = this.buscarMontoUnidadDeServicio(this.id_servicio, c);
         int cantidad = Integer.parseInt(this.cantidad);
       
-        Producto producto = new Producto();
+        ProductoSimple producto = new ProductoSimple();
         double saldo = producto.obtenerSaldo(this.id_producto, c);
        
         int i;
@@ -240,7 +240,7 @@ public class FachadaConsumo {
      * Devuelve true si un cliente posee saldo
      */
     private boolean tieneSaldo(Conexion c) {
-        return ((new Producto()).obtenerSaldo(this.id_producto, c) > 0);
+        return ((new ProductoSimple()).obtenerSaldo(this.id_producto, c) > 0);
     }
 
     /*
