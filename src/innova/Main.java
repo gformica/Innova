@@ -31,6 +31,8 @@ public class Main {
         if (afilia.esParteDelPlan("414-1495939","mocelS001103",inn)) {
             System.out.println("Patricia come chicle del piso... a veces pues :)");
         }
+        
+        
       
        /* 
         msj = "-----GESTION DE COBROS-----";

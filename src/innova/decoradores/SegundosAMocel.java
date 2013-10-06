@@ -2,7 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package innova;
+package innova.decoradores;
+import innova.Conexion;
+import innova.DecoradorProducto;
+import innova.Producto;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

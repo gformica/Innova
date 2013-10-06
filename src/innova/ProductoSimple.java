@@ -11,11 +11,13 @@ import java.sql.ResultSet;
  * @author gabriel
  */
 
-public class ProductoSimple extends Producto{
-    String nomb_producto;
-    String id_producto;
-    String id_cliente;
-    Double saldo;
+public class ProductoSimple extends Producto {
+    protected String nomb_producto;
+    protected String id_producto;
+    protected String id_cliente;
+    protected Double saldo;
+    
+    
     
     public ProductoSimple(String np, String ip, String ic, Double s) {
         nomb_producto = np;
@@ -24,9 +26,9 @@ public class ProductoSimple extends Producto{
         saldo = s;
     }
     
-      
-    public String getId() { 
-       return id_producto;
+    
+    public String getId() {
+        return id_producto;
     }
         
     public ProductoSimple() {
@@ -45,8 +47,8 @@ public class ProductoSimple extends Producto{
         str += " " + "values";
         str += "(" + "'"+ nomb_producto + "'" + ", " ;
         str += "'" + id_producto + "'" + ", ";
-        str += "'" + id_cliente + "', " ;
-        str += "'" + saldo + "')" ;
+        str += "'" + id_cliente + "'" + ", " ;
+        str += "'" + saldo + "'" + ")";
      
         c.execute(str);
         
@@ -80,10 +82,10 @@ public class ProductoSimple extends Producto{
         return rs;
     }
     
-   /*
-    * Aumenta el saldo del producto
-    */
-    public void sumarSaldo(String id, double aumento, Conexion c) {
+    /*
+     * Aumenta el saldo del producto
+     */
+    public void aumentarSaldo(String id, double aumento, Conexion c) {
         String str = "select p.saldo from producto p where id_producto = '";
         str += id + "';";
         ResultSet rs = c.query(str);
@@ -103,9 +105,32 @@ public class ProductoSimple extends Producto{
         c.execute(str);
     }
     
-   /*
-    * Devuelve el saldo del producto 
-    */
+    /*
+     * Disminuye el saldo del producto 
+     */
+    public void restarSaldo(String id, double disminucion, Conexion c) {
+        String str = "select p.saldo from producto p where id_producto = '";
+        str += id + "';";
+        ResultSet rs = c.query(str);
+        Double saldo_actual = 0.0;
+        
+        try { 
+                rs.next();
+                saldo_actual = rs.getDouble(1); 
+                
+        } catch (Exception e) {
+        
+        }
+        
+        saldo_actual -= disminucion;
+        str = "update producto set saldo = " + saldo_actual ;
+        str += " where id_producto = '" + id + "';";
+        c.execute(str);
+    }
+    
+    /*
+     * Devuelve el saldo del producto 
+     */
     public double obtenerSaldo(String id, Conexion c) {
         String str = "select p.saldo from producto p where id_producto = '";
         str += id + "';";
@@ -123,9 +148,6 @@ public class ProductoSimple extends Producto{
         return saldo_actual;
     }
     
-   /*
-    * Devuelve el tipo de plan de producto
-    */    
     public String obtenerTipoPlan(String id, Conexion c) {
         String str = "SELECT pl.tipo_plan FROM afilia a JOIN plan pl "
                 + " ON (pl.id_plan=a.id_plan) "
