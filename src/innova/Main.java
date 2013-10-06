@@ -26,13 +26,7 @@ public class Main {
         Conexion inn = new Conexion(dbname,user,passwd);
         String msj;
         int opcion;
-        
-        Afilia afilia = new Afilia();
-        if (afilia.esParteDelPlan("414-1495939","mocelS001103",inn)) {
-            System.out.println("Patricia come chicle del piso... a veces pues :)");
-        }
       
-       /* 
         msj = "-----GESTION DE COBROS-----";
         System.out.println(msj);
         
@@ -190,7 +184,7 @@ public class Main {
                                 System.out.println("Monto a recargar: ");
                                 Scanner sc7 = new Scanner(System.in);
                                 int monto = Integer.parseInt(sc7.nextLine());
-                                producto5.aumentarSaldo(id_a_recargar, monto, inn);
+                                producto5.sumarSaldo(id_a_recargar, monto, inn);
                                 System.out.println("Recarga exitosa. \n");
                         break;
                 }
@@ -392,7 +386,7 @@ public class Main {
                     switch(opcion){ 
                         case 1: System.out.println("---EMITIR--- \n ID del producto: ");
                                 Scanner sc1 = new Scanner(System.in);
-                                String producto = sc1.nextLine(); 
+                                String id_producto = sc1.nextLine(); 
 
                                 System.out.println("Nro de Tarjeta: ");
                                 Scanner sc2 = new Scanner(System.in);
@@ -401,16 +395,28 @@ public class Main {
                                 System.out.println("Observaciones: ");
                                 Scanner sc3 = new Scanner(System.in);
                                 String observaciones = sc3.nextLine();
+                                
+                                Producto producto1 = new Producto();
+                                producto1.id_cliente = id_producto;
+                                String tipo_plan = producto1.obtenerTipoPlan(id_producto, inn);
+                                
+                                if (tipo_plan.equals("postpago")) {
+                                    FacturacionPostpago tipo_facturacion = new FacturacionPostpago();
+                                    FachadaFactura FF = new FachadaFactura(id_producto, tarjeta, observaciones, tipo_facturacion);
+                                    Factura Fact = FF.emitir(inn);
+                                } else {
+                                    FacturacionPrepago tipo_facturacion = new FacturacionPrepago();
+                                    FachadaFactura FF = new FachadaFactura(id_producto, tarjeta, observaciones, tipo_facturacion);
+                                    Factura Fact = FF.emitir(inn);
+                                };
 
-                                FachadaFactura FF = new FachadaFactura(producto, tarjeta, observaciones, new FacturacionPostpago());
-                                Factura Fact = FF.emitir(inn);
                         break;
                         
                         case 2: System.out.println("---BUSCAR FACTURAS DE UN PRODUCTO--- \n ID del producto: ");
                                 Scanner sc4 = new Scanner(System.in);
-                                String id_producto = sc4.nextLine(); 
+                                String id_producto1 = sc4.nextLine(); 
                                 Factura Fact2 = new Factura();
-                                ResultSet Facturas = Fact2.buscar(id_producto, inn);
+                                ResultSet Facturas = Fact2.buscar(id_producto1, inn);
                                 try {
                                         while(Facturas.next()) {
                                         System.out.println("\n ---FACTURA---");
@@ -432,7 +438,6 @@ public class Main {
                     }
                     break;
         };
-        *     * */
 
     }
 }

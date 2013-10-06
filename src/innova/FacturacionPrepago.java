@@ -39,7 +39,8 @@ public class FacturacionPrepago extends Facturacion {
        double saldo_a_restar = 0.0;
        
        if (saldo_actual < costo_plan) {
-           obs_factura += "\n No se pudo renovar el plan";
+           obs_factura += "\n No se pudo renovar el plan. Debe recargar "
+                   + "para que se renueve automaticamente";
            // Se agrega a plan NO TIENE PLAN
        }
        else {
