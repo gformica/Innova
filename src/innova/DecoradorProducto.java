@@ -11,6 +11,7 @@ package innova;
 public abstract class DecoradorProducto extends Producto {
     
     protected final Producto productoBase;
+    protected String id;
     
     public DecoradorProducto(Producto p) {
         this.productoBase = p;
@@ -23,6 +24,18 @@ public abstract class DecoradorProducto extends Producto {
     
     
     public abstract void adicionarServicio(Conexion c);
+    
+    @Override
+    public Producto removerServicio(Conexion c) {
+        String id_producto =  getId();  
+        String str = "delete from adiciona ";
+        str += "where id_producto = " + "'" + id_producto + "' ";
+        str += "and id_servicio = " + "'" + this.id +"';";                
+        
+        c.execute(str);
+        
+        return productoBase;
+    }
     
     
     

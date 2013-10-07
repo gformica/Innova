@@ -11,13 +11,11 @@ import java.text.SimpleDateFormat;
  *
  * @author melecio
  */
-class SegundosAMocel extends DecoradorProducto {
-    public SegundosAMocel(Producto p) {
+class SPN extends DecoradorProducto {
+    public SPN(Producto p) {
         super(p);
-        this.id = "mocelS0000";
+        this.id = "tvCS0003";
     }
-    
-    
     
     @Override
     public void adicionarServicio(Conexion c){
@@ -35,14 +33,9 @@ class SegundosAMocel extends DecoradorProducto {
         str += "(" + "'"+ id_producto + "'" + ", " ;
         str += "'" + this.id + "'" + ", ";
         str += "'" + fecha_adicion + "'" + ",";
-        str += "'" + "t"  + "'" + ")";
-    
+        str += "'" + "t" + "'" + ")";
         c.execute(str);
+        
     }
-    
-    
-    
-    
-    
     
 }

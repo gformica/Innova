@@ -28,10 +28,12 @@ public class Main {
         String user = "postgres" ;
         String passwd = "pp";
         Conexion inn = new Conexion(dbname,user,passwd);
+<<<<<<< HEAD
         String msj;
         int opcion;
+=======
         
-        /*Producto p = new ProductoSimple("movil zenzei","414-1495939","V-21081301",0.0);
+        Producto p = new ProductoSimple("movil zenzei","414-1495939","V-21081301",0.0);
         p = new SegundosAMocel(p);
         
         ((SegundosAMocel)p).adicionarServicio(inn);
@@ -40,8 +42,21 @@ public class Main {
         
         ((SegundosAOtras)p).adicionarServicio(inn);
         
-        ((SegundosAOtras)p).removerServicio(inn);   */     
+        ((SegundosAOtras)p).removerServicio(inn);
+       
         
+        
+//        String msj;
+//        int opcion;
+        
+//        Afilia afilia = new Afilia();
+//        if (afilia.esParteDelPlan("414-1495939","mocelS001103",inn)) {
+//            System.out.println("Patricia come chicle del piso... a veces pues :)");
+//        }
+//        
+        
+>>>>>>> f5c662039f3b3bf1dcd909a27d8501726d7547e5
+      
         msj = "-----GESTION DE COBROS-----";
         System.out.println(msj);
         
