@@ -3,9 +3,7 @@
  * and open the template in the editor.
  */
 package innova;
-import innova.Conexion;
-import innova.DecoradorProducto;
-import innova.Producto;
+
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

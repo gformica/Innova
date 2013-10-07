@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 class SegundosAOtras extends DecoradorProducto {
     public SegundosAOtras(Producto p) {
         super(p);
+        this.id = "mocelS0001";
     }
     
     @Override

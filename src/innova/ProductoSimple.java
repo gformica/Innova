@@ -164,5 +164,10 @@ public class ProductoSimple extends Producto {
         return tipo_plan;
         
     }
+    
+    @Override
+    public Producto removerServicio(Conexion c){
+        return this;
+    }
 
 }

@@ -37,6 +37,8 @@ public class Main {
         p = new SegundosAOtras(p);
         
         ((SegundosAOtras)p).adicionarServicio(inn);
+        
+        ((SegundosAOtras)p).removerServicio(inn);
        
         
         

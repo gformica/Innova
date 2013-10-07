@@ -12,4 +12,6 @@ public abstract class Producto {
 
     public abstract String getId();
     
+    public abstract Producto removerServicio(Conexion c);
+    
 }
