@@ -34,8 +34,9 @@ public class Main {
         msj = msj + "\n 1) Gestion de Clientes.";
         msj = msj + "\n 2) Gestion de Productos.";
         msj = msj + "\n 3) Gestion de Afiliaciones.";
-        msj = msj + "\n 4) Gestion de Consumos.";
-        msj = msj + "\n 5) Gestion de Facturas. \n";
+        msj = msj + "\n 4) Gestion de Servicios Adicionales.";
+        msj = msj + "\n 5) Gestion de Consumos.";
+        msj = msj + "\n 6) Gestion de Facturas. \n";
         msj = msj + "\n Opcion nro: ";
         System.out.println(msj);
         
@@ -282,16 +283,41 @@ public class Main {
                     case 5: System.out.println("---DESAFILIAR--- \n ID del producto: ");
                             Scanner sc7 = new Scanner(System.in);
                             String id_producto1 = sc7.nextLine();
-                            System.out.println("ID del plan: ");
-                            Scanner sc8 = new Scanner(System.in);
-                            String id_plan3 = sc8.nextLine();
                             Afilia afiliacion5 = new Afilia();
                             afiliacion5.suspender(id_producto1, inn);
                     }
                     
             break;
+            
+            case 4: msj = "---GESTION DE SERVICIOS Y PAQUETES ADICIONALES--- \n Acciones: \n "
+                    + "1) Agregar Servicio \n 2) Agregar Paquete \n Opcion nro:" ; 
+                                        
+                    System.out.println(msj);
+                    in = new Scanner(System.in);
+                    opcion = in.nextInt();
+                    
+                    switch(opcion){ 
+                        case 1: System.out.println("ID del producto: ");
+                                Scanner scan = new Scanner(System.in);
+                                String producto0 = scan.nextLine();
+
+                                System.out.println("ID del servicio: ");
+                                Scanner scan0 = new Scanner(System.in);
+                                String servicio = scan0.nextLine();
+                        break;
+                        
+                        case 2: System.out.println("ID del producto: ");
+                                Scanner scan1 = new Scanner(System.in);
+                                String producto1 = scan1.nextLine();
+
+                                System.out.println("ID del paquete: ");
+                                Scanner scan2 = new Scanner(System.in);
+                                String paquete = scan2.nextLine();
+                        break;
                 
-            case 4: msj = "---GESTION CONSUMOS--- \n Acciones: \n 1) Registrar \n " ; 
+            break;
+                
+            case 5: msj = "---GESTION CONSUMOS--- \n Acciones: \n 1) Registrar \n " ; 
                     msj = msj + "2) Buscar \n 3) Consultar \n Opcion nro: " ; 
                     
                     System.out.println(msj);
@@ -376,7 +402,7 @@ public class Main {
                 }
             break;
                 
-            case 5: msj = "---GESTION FACTURAS--- \n Acciones: \n 1) Emitir \n " ; 
+            case 6: msj = "---GESTION FACTURAS--- \n Acciones: \n 1) Emitir \n " ; 
                     msj = msj + "2) Consultar facturas de un producto \n Opcion nro: " ; 
                     
                     System.out.println(msj);
