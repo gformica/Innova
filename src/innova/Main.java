@@ -10,9 +10,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
-
-
 /**
  *
  * @author gabriel
@@ -22,25 +19,12 @@ public class Main {
     
     public static void main(String[] args) {
         
-        
-       
         String dbname = "innova" ;
         String user = "postgres" ;
         String passwd = "pp";
         Conexion inn = new Conexion(dbname,user,passwd);
         String msj;
         int opcion;
-        
-        /*Producto p = new ProductoSimple("movil zenzei","414-1495939","V-21081301",0.0);
-        p = new SegundosAMocel(p);
-        
-        ((SegundosAMocel)p).adicionarServicio(inn);
-        
-        p = new SegundosAOtras(p);
-        
-        ((SegundosAOtras)p).adicionarServicio(inn);
-        
-        ((SegundosAOtras)p).removerServicio(inn);   */     
         
         msj = "-----GESTION DE COBROS-----";
         System.out.println(msj);
@@ -148,14 +132,14 @@ public class Main {
                                 Scanner sc3 = new Scanner(System.in);
                                 String cedula = sc3.nextLine();
 
-                                Producto producto = new Producto(nombre, id, cedula, 0.0);
+                                ProductoSimple producto = new ProductoSimple(nombre, id, cedula, 0.0);
                                 producto.registrar(inn);
                         break;
 
                         case 2: System.out.println("---BUSCAR--- \n ID del producto a buscar: ");
                                 Scanner sc4 = new Scanner(System.in);
                                 String id_a_buscar = sc4.nextLine();
-                                Producto producto2 = new Producto();
+                                ProductoSimple producto2 = new ProductoSimple();
                                 ResultSet DatosProducto = producto2.buscar(id_a_buscar, inn);
                                 try {
                                         DatosProducto.next();
@@ -171,12 +155,12 @@ public class Main {
                         case 3: System.out.println("---ELIMINAR--- \n ID del producto a eliminar: ");
                                 Scanner sc5 = new Scanner(System.in);
                                 String id_a_eliminar = sc5.nextLine();
-                                Producto producto3 = new Producto();
+                                ProductoSimple producto3 = new ProductoSimple();
                                 producto3.eliminar(id_a_eliminar, inn);
                         break;
 
                         case 4: System.out.println("---LISTA DE PRODUCTOS--- ");
-                                Producto producto4 = new Producto();
+                                ProductoSimple producto4 = new ProductoSimple();
                                 ResultSet ConsultaProductos = producto4.listar(inn);
                                 try {
                                     while (ConsultaProductos.next()) {
@@ -196,7 +180,7 @@ public class Main {
                         case 5: System.out.println("---RECARGAR SALDO---\n ID del producto a recargar: ");
                                 Scanner sc6 = new Scanner(System.in);
                                 String id_a_recargar = sc6.nextLine();
-                                Producto producto5 = new Producto();
+                                ProductoSimple producto5 = new ProductoSimple();
                                 System.out.println("Monto a recargar: ");
                                 Scanner sc7 = new Scanner(System.in);
                                 int monto = Integer.parseInt(sc7.nextLine());
@@ -306,7 +290,7 @@ public class Main {
             
             case 4: msj = "---GESTION DE SERVICIOS Y PAQUETES ADICIONALES--- \n Acciones: \n "
                     + "1) Agregar Servicio \n 2) Agregar Paquete \n Opcion nro:" ; 
-                                        
+                    
                     System.out.println(msj);
                     in = new Scanner(System.in);
                     opcion = in.nextInt();
@@ -315,10 +299,98 @@ public class Main {
                         case 1: System.out.println("ID del producto: ");
                                 Scanner scan = new Scanner(System.in);
                                 String producto0 = scan.nextLine();
+                                Producto p = new ProductoSimple();
+                                p.setId(producto0);
 
                                 System.out.println("ID del servicio: ");
                                 Scanner scan0 = new Scanner(System.in);
                                 String servicio = scan0.nextLine();
+                                
+                                if (servicio.equals("mocelS0000")) {
+                                    
+                                    ((SegundosAMocel)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("mocelS0001")) {
+                                    
+                                    ((SegundosAOtras)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("mocelS0002")) {
+                                
+                                    ((SegundosAFijos)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("mocelS0003")) {
+                                    
+                                    ((MensajesDeTexto)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("mocelS0004")) {
+                                    
+                                    ((MensajesMultimedia)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("mocelS0005")) {
+                                    
+                                    ((BuzonDeMensajes)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("mocelS0006")) {
+                                    
+                                    ((LlamadaAConferencia)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("mocelS0007")) {
+                                    
+                                    ((SegundosAOCualquiera)p).adicionarServicio(inn);
+                                
+                                    
+                                    
+                                    
+                                } else if (servicio.equals("tvCS0001")) {
+                                    
+                                    ((AlquilerDecodificador)p).adicionarServicio(inn);
+                                
+                                } else if (servicio.equals("tvCS0002")) {
+                                    
+                                    ((TVBrasil)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("tvCS0003")) {
+                                    
+                                    ((SPN)p).adicionarServicio(inn);
+                                
+                                }  else if (servicio.equals("tvCS0004")) {
+                                    
+                                    ((NoticiasMundial)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("tvCS0005")) {
+                                    
+                                    ((PayPerView)p).adicionarServicio(inn);
+                                
+                                } else if (servicio.equals("tvCS0006")) {
+                                    
+                                    ((CanalNacional)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("tvCS0007")) {
+                                    
+                                    ((CanalVariedades)p).adicionarServicio(inn);
+                                    
+                                } else if (servicio.equals("tvCS0008")) {
+                                    
+                                    ((CanalKids)p).adicionarServicio(inn);
+                                
+                                } else if (servicio.equals("tvCS0009")) {
+                                    
+                                    ((CanalCine)p).adicionarServicio(inn);
+                                
+                                } else if (servicio.equals("tvCS0010")) {
+                                    
+                                    ((CanalDeportes)p).adicionarServicio(inn);
+                                
+                                } else if (servicio.equals("tvCS0011")) {
+                                    
+                                    ((CanalMundo)p).adicionarServicio(inn);
+                                
+                                } else if (servicio.equals("tvCS0006")) {
+                                    
+                                    ((CanalRadio)p).adicionarServicio(inn);
+                                } else {
+                                    System.out.println("Nombre de servicio invalido");
+                                }
                         break;
                         
                         case 2: System.out.println("ID del producto: ");
@@ -328,8 +400,16 @@ public class Main {
                                 System.out.println("ID del paquete: ");
                                 Scanner scan2 = new Scanner(System.in);
                                 String paquete = scan2.nextLine();
+                                
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                Date date = new Date();
+                                String fecha = dateFormat.format(date).toString();
+                                
+                                Agrega agregar_paquete = new Agrega(producto1, paquete, fecha, "false");
+                                agregar_paquete.registrar(inn);
+                                
                         break;
-                
+                    }
             break;
                 
             case 5: msj = "---GESTION CONSUMOS--- \n Acciones: \n 1) Registrar \n " ; 
@@ -346,7 +426,7 @@ public class Main {
 
                                 System.out.println("ID del servicio: ");
                                 Scanner sc2 = new Scanner(System.in);
-                                String servicio = sc2.nextLine();
+                                String servicio0 = sc2.nextLine();
 
                                 System.out.println("Fecha: ");
                                 Scanner sc3 = new Scanner(System.in);
@@ -360,7 +440,7 @@ public class Main {
                                 Scanner sc5 = new Scanner(System.in);
                                 String cantidad_total = sc5.nextLine();
 
-                                Consumo consumo = new Consumo(producto, servicio, fecha, cantidad, cantidad_total);
+                                Consumo consumo = new Consumo(producto, servicio0, fecha, cantidad, cantidad_total);
                                 boolean registrado = consumo.registrar(inn);
                                 if (registrado) {
                                     System.out.println("Registro exitoso. \n");
@@ -437,9 +517,9 @@ public class Main {
                                 Scanner sc3 = new Scanner(System.in);
                                 String observaciones = sc3.nextLine();
                                 
-                                Producto producto1 = new Producto();
-                                producto1.id_cliente = id_producto;
-                                String tipo_plan = producto1.obtenerTipoPlan(id_producto, inn);
+                                ProductoSimple producto2 = new ProductoSimple();
+                                producto2.setId(id_producto);
+                                String tipo_plan = producto2.obtenerTipoPlan(id_producto, inn);
                                 
                                 if (tipo_plan.equals("postpago")) {
                                     FacturacionPostpago tipo_facturacion = new FacturacionPostpago();
@@ -475,11 +555,10 @@ public class Main {
                                 } catch (Exception e){
 
                                 }
-                        break;
+                                break;
                     }
                     break;
-        };
+        }
 
     }
 }
-

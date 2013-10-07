@@ -14,17 +14,17 @@ public class Agrega {
     String id_producto;
     String id_paquete;
     String fecha_agrega;
-    boolean vigente_agrega;
+    String vigente_agrega;
 
     public Agrega () {
         this.id_producto = null;
         this.id_paquete = null;
         this.fecha_agrega = null;
-        this.vigente_agrega = false;
+        this.vigente_agrega = null;
     }
     
     public Agrega(String id_producto, String id_paquete, String fecha_agrega,
-                  boolean vigente_agrega) {
+                  String vigente_agrega) {
         
         this.id_producto = id_producto;
         this.id_paquete = id_paquete;
@@ -41,9 +41,8 @@ public class Agrega {
         str += "vigente_agrega) values";
         str += "(" + "'"+ this.id_producto + "'" + ", " ;
         str += "'" + this.id_paquete + "'" + ", ";
-        str += "'" + this.fecha_agrega + "' " ;
-        str += "'" + this.vigente_agrega + "'" + ")";
-        this.cambiarVigencia(c);
+        str += "'" + this.fecha_agrega + "' " + ", ";
+        str += "'" + this.vigente_agrega + "'" + ");";
         c.execute(str);
         
     }

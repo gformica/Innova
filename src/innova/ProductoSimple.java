@@ -25,6 +25,10 @@ public class ProductoSimple extends Producto {
         id_cliente = ic;
         saldo = s;
     }
+
+    public void setId(String id_producto) {
+        this.id_producto = id_producto;
+    }
     
     
     public String getId() {
@@ -85,7 +89,7 @@ public class ProductoSimple extends Producto {
     /*
      * Aumenta el saldo del producto
      */
-    public void aumentarSaldo(String id, double aumento, Conexion c) {
+    public void sumarSaldo(String id, double aumento, Conexion c) {
         String str = "select p.saldo from producto p where id_producto = '";
         str += id + "';";
         ResultSet rs = c.query(str);

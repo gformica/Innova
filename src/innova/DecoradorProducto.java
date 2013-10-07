@@ -22,6 +22,11 @@ public abstract class DecoradorProducto extends Producto {
         return productoBase.getId();
     }
     
+    @Override
+    public void setId(String id_producto) {
+        this.productoBase.setId(id_producto);
+    }
+    
     
     public abstract void adicionarServicio(Conexion c);
     

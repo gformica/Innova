@@ -12,6 +12,8 @@ public abstract class Producto {
 
     public abstract String getId();
     
+    public abstract void setId(String id);
+    
     public abstract Producto removerServicio(Conexion c);
     
 }
