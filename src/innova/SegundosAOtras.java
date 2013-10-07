@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package innova.decoradores;
+package innova;
 import innova.Conexion;
 import innova.DecoradorProducto;
 import innova.Producto;
@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat;
  *
  * @author melecio
  */
-class SegundosAMocel extends DecoradorProducto {
-    public SegundosAMocel(Producto p) {
+class SegundosAOtras extends DecoradorProducto {
+    public SegundosAOtras(Producto p) {
         super(p);
     }
     
@@ -33,11 +33,11 @@ class SegundosAMocel extends DecoradorProducto {
         str += "(id_producto, id_servicio, fecha_adicion, vigente_adiciona)";
         str += " " + "values";
         str += "(" + "'"+ id_producto + "'" + ", " ;
-        str += "'" + "mocelS0000" + "'" + ", ";
-        str += "'" + fecha_adicion + "'";
-        str += "'" + "t"  + ")";
+        str += "'" + "mocelS0001" + "'" + ", ";
+        str += "'" + fecha_adicion + "'" + ",";
+        str += "'" + "t" + "'" + ")";
+        c.execute(str);
         
-        System.out.println(str);
     }
     
 }

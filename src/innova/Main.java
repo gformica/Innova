@@ -3,11 +3,15 @@
  * and open the template in the editor.
  */
 package innova;
+
 import java.util.Scanner;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+
+
 
 /**
  *
@@ -24,14 +28,26 @@ public class Main {
         String user = "postgres" ;
         String passwd = "pp";
         Conexion inn = new Conexion(dbname,user,passwd);
-        String msj;
-        int opcion;
         
-        Afilia afilia = new Afilia();
-        if (afilia.esParteDelPlan("414-1495939","mocelS001103",inn)) {
-            System.out.println("Patricia come chicle del piso... a veces pues :)");
-        }
+        Producto p = new ProductoSimple("movil zenzei","414-1495939","V-21081301",0.0);
+        p = new SegundosAMocel(p);
         
+        ((SegundosAMocel)p).adicionarServicio(inn);
+        
+        p = new SegundosAOtras(p);
+        
+        ((SegundosAOtras)p).adicionarServicio(inn);
+       
+        
+        
+//        String msj;
+//        int opcion;
+        
+//        Afilia afilia = new Afilia();
+//        if (afilia.esParteDelPlan("414-1495939","mocelS001103",inn)) {
+//            System.out.println("Patricia come chicle del piso... a veces pues :)");
+//        }
+//        
         
       
        /* 
