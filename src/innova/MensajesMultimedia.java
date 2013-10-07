@@ -16,7 +16,8 @@ import java.text.SimpleDateFormat;
  */
 class MensajesMultimedia extends DecoradorProducto {
     public MensajesMultimedia(Producto p) {
-        super(p);
+        super(p);   
+        this.id = "mocelS0004";
     }
     
     @Override
@@ -33,7 +34,7 @@ class MensajesMultimedia extends DecoradorProducto {
         str += "(id_producto, id_servicio, fecha_adicion, vigente_adiciona)";
         str += " " + "values";
         str += "(" + "'"+ id_producto + "'" + ", " ;
-        str += "'" + "mocelS0004" + "'" + ", ";
+        str += "'" + this.id + "'" + ", ";
         str += "'" + fecha_adicion + "'" + ",";
         str += "'" + "t" + "'" + ")";
         c.execute(str);

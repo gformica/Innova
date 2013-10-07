@@ -3,9 +3,6 @@
  * and open the template in the editor.
  */
 package innova;
-import innova.Conexion;
-import innova.DecoradorProducto;
-import innova.Producto;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,6 +14,7 @@ import java.text.SimpleDateFormat;
 class SegundosAFijos extends DecoradorProducto {
     public SegundosAFijos(Producto p) {
         super(p);
+        this.id = "mocelS0002";
     }
     
     @Override
@@ -33,7 +31,7 @@ class SegundosAFijos extends DecoradorProducto {
         str += "(id_producto, id_servicio, fecha_adicion, vigente_adiciona)";
         str += " " + "values";
         str += "(" + "'"+ id_producto + "'" + ", " ;
-        str += "'" + "mocelS0002" + "'" + ", ";
+        str += "'" + this.id + "'" + ", ";
         str += "'" + fecha_adicion + "'" + ",";
         str += "'" + "t" + "'" + ")";
         c.execute(str);

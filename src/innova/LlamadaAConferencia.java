@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 class LlamadaAConferencia extends DecoradorProducto {
     public LlamadaAConferencia(Producto p) {
         super(p);
+        this.id = "mocelS0006";
     }
     
     @Override
@@ -33,7 +34,7 @@ class LlamadaAConferencia extends DecoradorProducto {
         str += "(id_producto, id_servicio, fecha_adicion, vigente_adiciona)";
         str += " " + "values";
         str += "(" + "'"+ id_producto + "'" + ", " ;
-        str += "'" + "mocelS0006" + "'" + ", ";
+        str += "'" + this.id + "'" + ", ";
         str += "'" + fecha_adicion + "'" + ",";
         str += "'" + "t" + "'" + ")";
         c.execute(str);

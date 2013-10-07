@@ -3,9 +3,6 @@
  * and open the template in the editor.
  */
 package innova;
-import innova.Conexion;
-import innova.DecoradorProducto;
-import innova.Producto;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,10 +11,10 @@ import java.text.SimpleDateFormat;
  *
  * @author melecio
  */
-class BuzonDeMensajes extends DecoradorProducto {
-    public BuzonDeMensajes(Producto p) {
+class CanalNacional extends DecoradorProducto {
+    public CanalNacional(Producto p) {
         super(p);
-        this.id = "mocelS0005";
+        this.id = "tvC0006";
     }
     
     @Override
