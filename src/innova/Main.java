@@ -33,7 +33,7 @@ public class Main {
         msj = msj + "\n 1) Gestion de Clientes.";
         msj = msj + "\n 2) Gestion de Productos.";
         msj = msj + "\n 3) Gestion de Afiliaciones.";
-        msj = msj + "\n 4) Gestion de Servicios Adicionales.";
+        msj = msj + "\n 4) Gestion de Servicios y Paquetes Adicionales.";
         msj = msj + "\n 5) Gestion de Consumos.";
         msj = msj + "\n 6) Gestion de Facturas. \n";
         msj = msj + "\n Opcion nro: ";
@@ -308,86 +308,104 @@ public class Main {
                                 
                                 if (servicio.equals("mocelS0000")) {
                                     
+                                    p = new SegundosAMocel(p);
                                     ((SegundosAMocel)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("mocelS0001")) {
                                     
+                                    p = new SegundosAOtras(p);
                                     ((SegundosAOtras)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("mocelS0002")) {
                                 
+                                    p = new SegundosAFijos(p);
                                     ((SegundosAFijos)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("mocelS0003")) {
                                     
+                                    p = new MensajesDeTexto(p);
                                     ((MensajesDeTexto)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("mocelS0004")) {
                                     
+                                    p = new MensajesMultimedia(p);
                                     ((MensajesMultimedia)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("mocelS0005")) {
                                     
+                                    p = new BuzonDeMensajes(p);
                                     ((BuzonDeMensajes)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("mocelS0006")) {
                                     
+                                    p = new LlamadaAConferencia(p);
                                     ((LlamadaAConferencia)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("mocelS0007")) {
                                     
+                                    p = new SegundosAOCualquiera(p);
                                     ((SegundosAOCualquiera)p).adicionarServicio(inn);
-                                
-                                    
-                                    
                                     
                                 } else if (servicio.equals("tvCS0001")) {
                                     
+                                    p = new AlquilerDecodificador(p);
                                     ((AlquilerDecodificador)p).adicionarServicio(inn);
                                 
                                 } else if (servicio.equals("tvCS0002")) {
                                     
+                                    p = new TVBrasil(p);
                                     ((TVBrasil)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("tvCS0003")) {
                                     
+                                    p = new SPN(p);
                                     ((SPN)p).adicionarServicio(inn);
                                 
                                 }  else if (servicio.equals("tvCS0004")) {
                                     
+                                    p = new NoticiasMundial(p);
                                     ((NoticiasMundial)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("tvCS0005")) {
                                     
+                                    p = new PayPerView(p);
                                     ((PayPerView)p).adicionarServicio(inn);
                                 
                                 } else if (servicio.equals("tvCS0006")) {
                                     
+                                    p = new CanalNacional(p);
                                     ((CanalNacional)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("tvCS0007")) {
                                     
+                                    p = new CanalVariedades(p);
                                     ((CanalVariedades)p).adicionarServicio(inn);
                                     
                                 } else if (servicio.equals("tvCS0008")) {
                                     
+                                    p = new CanalKids(p);
                                     ((CanalKids)p).adicionarServicio(inn);
                                 
                                 } else if (servicio.equals("tvCS0009")) {
                                     
+                                    p = new CanalCine(p);
                                     ((CanalCine)p).adicionarServicio(inn);
                                 
                                 } else if (servicio.equals("tvCS0010")) {
                                     
+                                    p = new CanalDeportes(p);
                                     ((CanalDeportes)p).adicionarServicio(inn);
                                 
                                 } else if (servicio.equals("tvCS0011")) {
                                     
+                                    p = new CanalMundo(p);
                                     ((CanalMundo)p).adicionarServicio(inn);
                                 
                                 } else if (servicio.equals("tvCS0006")) {
                                     
+                                    p = new CanalRadio(p);
                                     ((CanalRadio)p).adicionarServicio(inn);
+                                    
                                 } else {
                                     System.out.println("Nombre de servicio invalido");
                                 }

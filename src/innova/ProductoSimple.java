@@ -110,29 +110,6 @@ public class ProductoSimple extends Producto {
     }
     
     /*
-     * Disminuye el saldo del producto 
-     */
-    public void restarSaldo(String id, double disminucion, Conexion c) {
-        String str = "select p.saldo from producto p where id_producto = '";
-        str += id + "';";
-        ResultSet rs = c.query(str);
-        Double saldo_actual = 0.0;
-        
-        try { 
-                rs.next();
-                saldo_actual = rs.getDouble(1); 
-                
-        } catch (Exception e) {
-        
-        }
-        
-        saldo_actual -= disminucion;
-        str = "update producto set saldo = " + saldo_actual ;
-        str += " where id_producto = '" + id + "';";
-        c.execute(str);
-    }
-    
-    /*
      * Devuelve el saldo del producto 
      */
     public double obtenerSaldo(String id, Conexion c) {
